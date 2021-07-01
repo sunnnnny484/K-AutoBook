@@ -17,7 +17,7 @@ class Manager(AbstractManager):
 
     def __init__(self, browser, config=None, directory='./', prefix=''):
         """
-        bookpass の操作を行うためのコンストラクタ
+        booklive の操作を行うためのコンストラクタ
         @param browser splinter のブラウザインスタンス
         """
         super().__init__(browser, config, directory, prefix)
@@ -40,29 +40,29 @@ class Manager(AbstractManager):
 
         self._wait()
 
-        _total = self._get_total_page()
-        if not _total:
+        total = self._get_total_page()
+        if not total:
             return '全ページ数の取得に失敗しました'
 
         self.current_page_element = self._get_current_page_element()
         if self.current_page_element is None:
             return '現在のページ情報の取得に失敗しました'
 
-        self._set_total(_total)
-        for _count in range(0, _total):
+        self._set_total(total)
+        for _count in range(0, total):
 
-            _imgs = self.browser.find_by_css(f"#content-p{_count + 1} div.pt-img img")
-            _images = [self._get_image_by_url(_img._element.get_attribute('src')) for _img in _imgs]
-            # print(f'images: {len(_images)}')
-            _hb = _images[-1].size[1]
-            _w = _images[0].size[0]
-            _h = sum(self._get_height(_image.size[1], _hb, _image == _images[-1]) for _image in _images)
-            _dest = Image.new('RGB', (_w, _h))
-            _hh = 0
-            for _image in _images:
-                _dest.paste(_image, (0, _hh, _w, _hh + _image.size[1]))
-                _hh += self._get_height(_image.size[1], _hb, _image == _images[-1])
-            self._save_image(_count, _dest)
+            imgs = self.browser.find_by_css(f"#content-p{_count + 1} div.pt-img img")
+            images = [self._get_image_by_url(img._element.get_attribute('src')) for img in imgs]
+            # print(f'images: {len(images)}')
+            hb = images[-1].size[1]
+            w = images[0].size[0]
+            h = sum(self._get_height(image.size[1], hb, image == images[-1]) for image in images)
+            dest = Image.new('RGB', (w, h))
+            hh = 0
+            for image in images:
+                dest.paste(image, (0, hh, w, hh + image.size[1]))
+                hh += self._get_height(image.size[1], hb, image == images[-1])
+            self._save_image(_count, dest)
 
             self.pbar.update(1)
 
@@ -87,8 +87,8 @@ class Manager(AbstractManager):
             pass
         else:
             print(f'unknown base {base}')
-        _margin = height - base
-        return height - _margin
+        margin = height - base
+        return height - margin
 
     def _get_total_page(self):
         """
@@ -130,8 +130,8 @@ class Manager(AbstractManager):
         """
         次のページに進む
         """
-        _current_page = self._get_current_page()
+        current_page = self._get_current_page()
         self._press_key(self.next_key)
         if self._get_current_page() and self._get_current_page() < self.pbar.total - 1:
-            while self._get_current_page() != _current_page + 1:
+            while self._get_current_page() != current_page + 1:
                 time.sleep(0.1)

@@ -27,7 +27,7 @@
     "cmoa": {
         "domain": "www\\.cmoa\\.jp",
         "patterns": ["bib\\/speedreader\\/speed.html\\?cid=(\\d{10}_[a-z]{2}_\\d{4})"],
-        "cookie": "how to get cookie: see 'https://github.com/xuzhengyi1995/Bookwalker_Downloader' (!!! caution: target site is 'https://manga.line.me/' !!!)"
+        "cookie": "how to get cookie: see 'https://github.com/xuzhengyi1995/Bookwalker_Downloader' (!!! caution: target site is 'https://www.cmoa.jp/' !!!)"
     },
     "comicaction": {
         "domain": "comic-action\\.com",
@@ -83,7 +83,7 @@
         "domain": "mangacross\\.jp",
         "patterns": ["comics\\/(\\w+)\\/([0-9]+)"],
         "needs_login": false,
-        "cookie": "how to get cookie: see 'https://github.com/xuzhengyi1995/Bookwalker_Downloader' (!!! caution: target site is 'https://manga.line.me/' !!!)"
+        "cookie": "how to get cookie: see 'https://github.com/xuzhengyi1995/Bookwalker_Downloader' (!!! caution: target site is 'https://mangacross.jp/' !!!)"
     },
     "webace": {
         "domain": "web-ace\\.jp",
