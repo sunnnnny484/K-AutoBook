@@ -54,8 +54,8 @@
         "blank_check_giveup": 5
     },
     "ganganonline": {
-        "domain": "viewer\\.ganganonline\\.com",
-        "patterns": ["manga\\/\\?chapterId=(\\d+)"]
+        "domain": "www\\.ganganonline\\.com",
+        "patterns": ["title\\/(\\d+)\\/chapter\\/(\\d+)"]
     },
     "jumpplus": {
         "domain": "shonenjumpplus\\.com",
