@@ -26,7 +26,7 @@ class Manager(AbstractManager):
         """
         super().__init__(browser, config, directory, prefix)
 
-        self.next_key = None
+        self.next_key = Keys.ARROW_LEFT
         """
         次のページに進むためのキー
         """
@@ -39,8 +39,6 @@ class Manager(AbstractManager):
         現在表示されているページのページ番号が表示されるエレメント
         """
         self.retry_count = 0
-
-        self._set_bound_of_side(None)
 
     def _fix_window_size(self):
         canvas = self.browser.find_by_css('canvas').first._element
@@ -87,6 +85,7 @@ class Manager(AbstractManager):
         # resize by option
         self._sleep(2)
 
+        self.browser.driver.switch_to.frame(0)
         self._fix_window_size()
 
         _total = self._get_total_page()
@@ -100,16 +99,18 @@ class Manager(AbstractManager):
         if self.current_page_element is None:
             return '現在のページ情報の取得に失敗しました'
 
-        self._set_bound_of_side(self._get_bound_on_side())
-
-        self._move_first_page()
-        self._sleep()
-
-        while self._get_current_page() != 1:
-            time.sleep(0.1)
-
         self._set_total(_total)
-        for _count in range(0, _total):
+
+        self._save_image(0, self._capture())
+
+        self.browser.find_by_css('body').click()
+        self._press_key(self.next_key)
+        self.pbar.update(1)
+
+        # different size from cover
+        self._fix_window_size()
+
+        for _count in range(1, _total):
 
             self.retry_count = 0
             self._save_image(_count, self._capture(_count in _excludes))
@@ -117,10 +118,6 @@ class Manager(AbstractManager):
 
             self._next()
             self._sleep()
-
-            if _count == 0:
-                # different size from cover
-                self._fix_window_size()
 
         return True
 
@@ -150,6 +147,7 @@ class Manager(AbstractManager):
         _elements = self.browser.find_by_css('.footer__page-output > output')
         if len(_elements) != 0:
             return _elements.first
+        print("*** NO CURRENT ELEMENT ***")
         return None
 
     def _get_current_page(self):
@@ -160,10 +158,11 @@ class Manager(AbstractManager):
         try:
             return int(self.current_page_element.html[:-2])
         except:
+            print("*** NO CURRENT PAGE ***")
             return 0
 
     @retry(tries=10, delay=1)
-    def _capture(self, ignore_blank):
+    def _capture(self, ignore_blank=False):
         """
         @param ignore_blank キャプチャミスを無視するかどうか
         """
@@ -203,41 +202,3 @@ class Manager(AbstractManager):
         if self._get_current_page() and self._get_current_page() < self.pbar.total - 1:
             while self._get_current_page() and self._get_current_page() != _current_page + 1:
                 time.sleep(0.1)
-
-    def _previous(self):
-        """
-        前のページに戻る
-        """
-        self._press_key(self.previous_key)
-
-    def _move_first_page(self):
-        """
-        先頭ページに移動
-        """
-        while self._get_current_page() != 1:
-            self._previous()
-
-    def _get_bound_on_side(self):
-        _current = self._get_current_page()
-        self._press_key(Keys.ARROW_LEFT)
-        if _current < self._get_current_page():
-            return BoundOnSide.RIGHT
-        else:
-            return BoundOnSide.LEFT
-
-    def _set_bound_of_side(self, bound_on_side):
-        """
-        ページの綴じ場所から次/前のページへの移動キーを設定する
-        @param bound_on_side ページの綴じ場所
-        """
-        _result = BoundOnSide.RIGHT
-        if bound_on_side in {BoundOnSide.RIGHT, BoundOnSide.LEFT}:
-            _result = bound_on_side
-        elif self.config is not None:
-            _result = self.config.bound_on_side
-        if _result == BoundOnSide.LEFT:
-            self.next_key = Keys.ARROW_RIGHT
-            self.previous_key = Keys.ARROW_LEFT
-        else:
-            self.next_key = Keys.ARROW_LEFT
-            self.previous_key = Keys.ARROW_RIGHT
