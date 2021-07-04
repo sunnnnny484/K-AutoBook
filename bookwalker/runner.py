@@ -15,5 +15,5 @@ class Runner(DirectPageRunner):
     詳細ページ https://bookwalker.jp/{cid}/ の赤いボタン "今すぐ読む (無料)" のリンクをコピー
     """
 
-    def __init__(self, type_, browser, config):
-        super().__init__(type_, browser, config, manager_class=Manager)
+    def __init__(self, type_, driver, config):
+        super().__init__(type_, driver, config, manager_class=Manager)

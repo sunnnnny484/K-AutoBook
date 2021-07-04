@@ -14,12 +14,12 @@ class Manager(AbstractManager):
     gangan-online の操作を行うためのクラス
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         gangan-online の操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver splinter のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
         self.pbar = tqdm(bar_format='{n_fmt}/{total_fmt}')
 
@@ -35,18 +35,18 @@ class Manager(AbstractManager):
         """
         self._wait()
 
-        self.browser.driver.set_window_size(480, 640)
+        self.driver.set_window_size(480, 640)
 
         count = 0
         while True:
 
             img = self._get_img()
             try:
-                self.browser.driver.find_element_by_xpath("//button[text() = '閉じる']")
+                self.driver.find_element_by_xpath("//button[text() = '閉じる']")
                 break
             except:
-                if _count != 0:
-                    self._save_image_of_bytes(_count, get_file_content_chrome(self.browser.driver, img.get_attribute('src')))
+                if count != 0:
+                    self._save_image_of_bytes(count, get_file_content_chrome(self.driver, img.get_attribute('src')))
                     self.pbar.update(1)
 
                 self._next()
@@ -58,7 +58,7 @@ class Manager(AbstractManager):
 
     @retry(tries=3, delay=1)
     def _get_img(self):
-        return self.browser.driver.find_element_by_xpath("//img[starts-with(@src, 'blob:')]")
+        return self.driver.find_element_by_xpath("//img[starts-with(@src, 'blob:')]")
 
     def _next(self):
         """

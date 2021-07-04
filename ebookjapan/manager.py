@@ -10,7 +10,6 @@ import time
 from PIL import Image
 from retry import retry
 from selenium.webdriver.common.keys import Keys
-from ebookjapan.config import BoundOnSide
 from manager import AbstractManager
 
 
@@ -19,12 +18,12 @@ class Manager(AbstractManager):
     ebookjapanの操作を行うためのクラス
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         ebookjapanの操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver splinter のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
         self.next_key = Keys.ARROW_LEFT
         """
@@ -41,12 +40,12 @@ class Manager(AbstractManager):
         self.retry_count = 0
 
     def _fix_window_size(self):
-        canvas = self.browser.find_by_css('canvas').first._element
+        canvas = self.driver.find_elements_by_css_selector('canvas')[0]
 
         w = 480
         h = 640
 
-        self.browser.driver.set_window_size(w, h)
+        self.driver.set_window_size(w, h)
         self._sleep(1)
 
         self.set_attribute(canvas, 'style', f'width: {w}px; height: {h}px;')
@@ -55,7 +54,7 @@ class Manager(AbstractManager):
         height = int(canvas.get_attribute('height'))
         print(f'height: {height}')
 
-        self.browser.driver.set_window_size(w, height)
+        self.driver.set_window_size(w, height)
         self._sleep(1)
 
         style = canvas.get_attribute('style')
@@ -67,7 +66,7 @@ class Manager(AbstractManager):
         width = int(canvas.get_attribute('width'))
         print(f'width: {width}')
 
-        self.browser.driver.set_window_size(width, height)
+        self.driver.set_window_size(width, height)
         print(f'window: {width}x{height}')
         self._sleep(1)
 
@@ -85,7 +84,7 @@ class Manager(AbstractManager):
         # resize by option
         self._sleep(2)
 
-        self.browser.driver.switch_to.frame(0)
+        self.driver.switch_to.frame(0)
         self._fix_window_size()
 
         total = self._get_total_page()
@@ -103,7 +102,7 @@ class Manager(AbstractManager):
 
         self._save_image(0, self._capture())
 
-        self.browser.find_by_css('body').click()
+        self.driver.find_element_by_css_selector('body').click()
         self._press_key(self.next_key)
         self.pbar.update(1)
 
@@ -130,12 +129,12 @@ class Manager(AbstractManager):
         最初にフッタの出し入れをする
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
-        _elements = self.browser.find_by_css('.footer__page-output > .total-pages')
-        if len(_elements) == 0:
+        elements = self.driver.find_elements_by_css_selector('.footer__page-output > .total-pages')
+        if len(elements) == 0:
             return None
         for _ in range(Manager.MAX_LOADING_TIME):
-            if _elements.first.html != '0':
-                return int(_elements.first.html)
+            if elements[0].get_attribute('innerHTML') != '0':
+                return int(elements[0].get_attribute('innerHTML'))
             time.sleep(1)
         return None
 
@@ -144,9 +143,9 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        _elements = self.browser.find_by_css('.footer__page-output > output')
-        if len(_elements) != 0:
-            return _elements.first
+        elements = self.driver.find_elements_by_css_selector('.footer__page-output > output')
+        if len(elements) != 0:
+            return elements[0]
         print("*** NO CURRENT ELEMENT ***")
         return None
 
@@ -156,7 +155,7 @@ class Manager(AbstractManager):
         @return 現在表示されているページ
         """
         try:
-            return int(self.current_page_element.html[:-2])
+            return int(self.current_page_element.get_attribute('innerHTML')[:-2])
         except:
             print("*** NO CURRENT PAGE ***")
             return 0

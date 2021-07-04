@@ -16,12 +16,12 @@ class Manager(AbstractManager):
     comicwalker の操作を行うためのクラス
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         comicwalker の操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver splinter のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
         self.cid = directory[directory.rfind('/') + 1:]
         """

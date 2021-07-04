@@ -14,6 +14,7 @@ from io import BytesIO
 from os import path, listdir, makedirs
 from PIL import Image
 from requests.adapters import HTTPAdapter
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -31,11 +32,11 @@ class AbstractManager(ABC):
     初回読み込み時の最大待ち時間
     """
 
-    def __init__(self, browser=None, config=None, directory='./', prefix=''):
+    def __init__(self, driver=None, config=None, directory='./', prefix=''):
         """
-        @param browser splinter のブラウザインスタンス
+        @param driver selenium のブラウザインスタンス
         """
-        self.browser = browser
+        self.driver: WebDriver = driver
         """
         splinter のブラウザインスタンス
         """
@@ -91,27 +92,27 @@ class AbstractManager(ABC):
               % (self.directory, directory))
 
     def _wait(self):
-        WebDriverWait(self.browser.driver, self.MAX_LOADING_TIME).until(
+        WebDriverWait(self.driver, self.MAX_LOADING_TIME).until(
             lambda driver: driver.execute_script('return document.readyState') == 'complete')
 
     def _wait_located(self, element):
-        WebDriverWait(self.browser.driver, self.MAX_LOADING_TIME).until(EC.presence_of_element_located(element))
+        WebDriverWait(self.driver, self.MAX_LOADING_TIME).until(EC.presence_of_element_located(element))
 
     def _get_session(self):
-        return get_session(self.browser.driver.execute_script("return navigator.userAgent;"))
+        return get_session(self.driver.execute_script("return navigator.userAgent;"))
 
     def _set_total(self, total):
         self.pbar = tqdm(total=total, bar_format='{n_fmt}/{total_fmt}')
         # print(f'total: {_total}')
 
     def _get_image_by_url(self, url):
-        image = Image.open(io.BytesIO(get_file_content_chrome(self.browser.driver, url)))
+        image = Image.open(io.BytesIO(get_file_content_chrome(self.driver, url)))
         if self._is_config_jpeg():
             image = image.convert('RGB')
         return image
 
     def _save_image_of_web_element(self, count, element):
-        base64_image = self.browser.driver.execute_script(
+        base64_image = self.driver.execute_script(
             "return arguments[0].toDataURL('image/%s').substring(22);" % self._format, element)
         name = '%s%s%03d%s' % (self.directory, self.prefix, count, self._extension)
         with open(name, 'wb') as f:
@@ -131,8 +132,8 @@ class AbstractManager(ABC):
         return self.config is not None and self.config.image_format == ImageFormat.JPEG
 
     def set_attribute(self, element, name, value):
-        self.browser.driver.execute_script("arguments[0].setAttribute(arguments[1], arguments[2]);",
-                                           element, name, value)
+        self.driver.execute_script("arguments[0].setAttribute(arguments[1], arguments[2]);",
+                                   element, name, value)
 
     def _sleep(self, sec=None):
         time.sleep(self._sleep_time if not sec else sec)
@@ -141,7 +142,7 @@ class AbstractManager(ABC):
         """
         指定したキーを押す
         """
-        ActionChains(self.browser.driver).key_down(key).perform()
+        ActionChains(self.driver).key_down(key).perform()
 
     @abstractmethod
     def start(self, url=None):
@@ -262,12 +263,12 @@ class CoreViewManager(AbstractManager):
     http://redsquirrel87.altervista.org/doku.php/manga-downloader and cfr :P
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         coreview の操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver splinter のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
         self._image_type = None
 
@@ -277,7 +278,7 @@ class CoreViewManager(AbstractManager):
         """
         self._wait()
 
-        script = self.browser.find_by_id('episode-json').first._element
+        script = self.driver.find_elements_by_id('episode-json')[0]
         json_ = json.loads(script.get_attribute('data-value'))
         self._image_type = json_['readableProduct']['pageStructure']['choJuGiga']
         pages = [x for x in json_['readableProduct']['pageStructure']['pages'] if x['type'] == 'main']

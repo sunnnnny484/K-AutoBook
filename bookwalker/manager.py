@@ -17,12 +17,12 @@ class Manager(AbstractManager):
     book-walker の操作を行うためのクラス
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         book-walker の操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver splinter のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
         self.next_key = Keys.ARROW_LEFT
         """
@@ -45,18 +45,18 @@ class Manager(AbstractManager):
         self._sleep(2)
 
         # get original size
-        _canvas = self.browser.driver.find_element_by_css_selector("canvas.dummy")
-        self.browser.driver.set_window_size(int(_canvas.get_attribute('width')),
-                                            int(_canvas.get_attribute('height')))
-        print(f'size: {_canvas.get_attribute("width")}x{_canvas.get_attribute("height")}')
+        canvas = self.driver.find_element_by_css_selector("canvas.dummy")
+        self.driver.set_window_size(int(canvas.get_attribute('width')),
+                                    int(canvas.get_attribute('height')))
+        print(f'size: {canvas.get_attribute("width")}x{canvas.get_attribute("height")}')
 
         self._sleep()
 
         self._set_total(total)
         for count in range(0, total):
 
-            _canvas = self.browser.driver.find_element_by_css_selector(".currentScreen canvas")
-            self._save_image_of_web_element(_count, _canvas)
+            canvas = self.driver.find_element_by_css_selector(".currentScreen canvas")
+            self._save_image_of_web_element(count, canvas)
             self.pbar.update(1)
 
             self._next()
@@ -71,11 +71,11 @@ class Manager(AbstractManager):
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
         for _ in range(Manager.MAX_LOADING_TIME):
-            _elements = self.browser.find_by_id('pageSliderCounter')
-            if len(_elements) != 0:
-                # print(_elements.first.html)
-                if re.match('^\\d+/\\d+$', _elements.first.html.strip()):
-                    return int(_elements.first.html.split('/')[1])
+            elements = self.driver.find_elements_by_id('pageSliderCounter')
+            if len(elements) != 0:
+                # print(elements[0].get_attribute('innerHTML'))
+                if re.match('^\\d+/\\d+$', elements[0].get_attribute('innerHTML').strip()):
+                    return int(elements[0].get_attribute('innerHTML').split('/')[1])
             time.sleep(1)
         return None
 
@@ -87,7 +87,7 @@ class Manager(AbstractManager):
         self._wait_loading()
 
     def _wait_loading(self):
-        WebDriverWait(self.browser.driver, 30).until_not(lambda x: self._check_is_loading(
+        WebDriverWait(self.driver, 30).until_not(lambda x: self._check_is_loading(
             x.find_elements_by_css_selector(".loading")))
 
     @staticmethod

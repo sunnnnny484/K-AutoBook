@@ -11,26 +11,26 @@ class Manager(AbstractManager):
     web-ace の操作を行うためのクラス
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         web-ace の操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver splinter のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
     def start(self, url=None):
         """
         ページの自動スクリーンショットを開始する
         @return エラーが合った場合にエラーメッセージを、成功時に True を返す
         """
-        self.browser.driver.set_window_size(480, 640)
+        self.driver.set_window_size(480, 640)
 
         self._wait()
 
-        scroll_down(self.browser.driver, self._sleep_time)
+        scroll_down(self.driver, self._sleep_time)
         print('scroll down to the bottom of the page.')
 
-        imgs = self.browser.find_by_css("img.viewerFixedImage")
+        imgs = self.driver.find_elements_by_css_selector("img.viewerFixedImage")
         self._set_total(len(imgs))
 
         session = self._get_session()

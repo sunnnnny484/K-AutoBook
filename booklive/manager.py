@@ -15,12 +15,12 @@ class Manager(AbstractManager):
     booklive の操作を行うためのクラス
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         booklive の操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver selenium のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
         self.next_key = Keys.ARROW_LEFT
         """
@@ -36,7 +36,7 @@ class Manager(AbstractManager):
         ページの自動スクリーンショットを開始する
         @return エラーが合った場合にエラーメッセージを、成功時に True を返す
         """
-        self.browser.driver.set_window_size(480, 640)
+        self.driver.set_window_size(480, 640)
 
         self._wait()
 
@@ -51,8 +51,8 @@ class Manager(AbstractManager):
         self._set_total(total)
         for _count in range(0, total):
 
-            imgs = self.browser.find_by_css(f"#content-p{_count + 1} div.pt-img img")
-            images = [self._get_image_by_url(img._element.get_attribute('src')) for img in imgs]
+            imgs = self.driver.find_elements_by_css_selector(f"#content-p{_count + 1} div.pt-img img")
+            images = [self._get_image_by_url(img.get_attribute('src')) for img in imgs]
             # print(f'images: {len(images)}')
             hb = images[-1].size[1]
             w = images[0].size[0]
@@ -97,11 +97,11 @@ class Manager(AbstractManager):
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
         for _ in range(Manager.MAX_LOADING_TIME):
-            _elements = self.browser.find_by_css('#menu_slidercaption')
-            if len(_elements) != 0:
-                print(_elements.first.html)
-                if re.match('^\\d+/\\d+$', _elements.first.html):
-                    return int(_elements.first.html.split('/')[1])
+            elements = self.driver.find_elements_by_css_selector('#menu_slidercaption')
+            if len(elements) != 0:
+                print(elements[0].get_attribute('innerHTML'))
+                if re.match('^\\d+/\\d+$', elements[0].get_attribute('innerHTML')):
+                    return int(elements[0].get_attribute('innerHTML').split('/')[1])
             time.sleep(1)
         return None
 
@@ -110,9 +110,9 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        _elements = self.browser.find_by_css('#menu_slidercaption')
-        if len(_elements) != 0:
-            return _elements.first
+        elements = self.driver.find_elements_by_css_selector('#menu_slidercaption')
+        if len(elements) != 0:
+            return elements[0]
         print("no current")
         return None
 
@@ -122,7 +122,7 @@ class Manager(AbstractManager):
         @return 現在表示されているページ
         """
         try:
-            return int(self.current_page_element.html.split('/')[0])
+            return int(self.current_page_element.get_attribute('innerHTML').split('/')[0])
         except:
             return 0
 

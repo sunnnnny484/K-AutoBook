@@ -12,6 +12,6 @@ class Runner(DirectPageRunner):
     https://piccoma.com/web/viewer/4267/1471900
     """
 
-    def __init__(self, type_, browser, config):
-        super().__init__(type_, browser, config, manager_class=Manager)
+    def __init__(self, type_, driver, config):
+        super().__init__(type_, driver, config, manager_class=Manager)
 

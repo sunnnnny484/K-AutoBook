@@ -13,5 +13,5 @@ class Runner(DirectPageRunner):
     https://web-ace.jp/youngaceup/contents/1000053/episode/1092/
     """
 
-    def __init__(self, type_, browser, config):
-        super().__init__(type_, browser, config, manager_class=Manager)
+    def __init__(self, type_, driver, config):
+        super().__init__(type_, driver, config, manager_class=Manager)

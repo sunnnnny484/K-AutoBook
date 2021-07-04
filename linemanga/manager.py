@@ -15,12 +15,12 @@ class Manager(AbstractManager):
     line-manga の操作を行うためのクラス
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         line-manga の操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver splinter のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
         self.next_key = Keys.ARROW_LEFT
         """
@@ -47,18 +47,18 @@ class Manager(AbstractManager):
             return '現在のページ情報の取得に失敗しました'
 
         # get original size
-        _canvas = self.browser.driver.find_element_by_css_selector("canvas.dummy")
-        self.browser.driver.set_window_size(int(_canvas.get_attribute('width')),
-                                            int(_canvas.get_attribute('height')))
-        print(f'size: {_canvas.get_attribute("width")}x{_canvas.get_attribute("height")}')
+        canvas = self.driver.find_element_by_css_selector("canvas.dummy")
+        self.driver.set_window_size(int(canvas.get_attribute('width')),
+                                    int(canvas.get_attribute('height')))
+        print(f'size: {canvas.get_attribute("width")}x{canvas.get_attribute("height")}')
 
         self._sleep()
 
-        self._set_total(_total)
-        for _count in range(0, _total):
+        self._set_total(total)
+        for count in range(0, total):
 
-            _base64_image = self.browser.driver.get_screenshot_as_base64()
-            self._save_image_of_bytes(_count, base64.b64decode(_base64_image))
+            _base64_image = self.driver.get_screenshot_as_base64()
+            self._save_image_of_bytes(count, base64.b64decode(_base64_image))
             self.pbar.update(1)
 
             self._next()
@@ -73,11 +73,11 @@ class Manager(AbstractManager):
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
         for _ in range(Manager.MAX_LOADING_TIME):
-            _elements = self.browser.find_by_css("span.fnViewerSliderNumTotal")
-            if len(_elements) != 0:
-                # print(f'"{_elements.first.html}"')
-                if re.match(r'^\d+$', _elements.first.html.strip()):
-                    return int(_elements.first.html.strip())
+            elements = self.driver.find_elements_by_css_selector("span.fnViewerSliderNumTotal")
+            if len(elements) != 0:
+                # print(f'"{elements[0].get_attribute('innerHTML')}"')
+                if re.match(r'^\d+$', elements[0].get_attribute('innerHTML').strip()):
+                    return int(elements[0].get_attribute('innerHTML').strip())
             time.sleep(1)
         return None
 
@@ -86,9 +86,9 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        _elements = self.browser.find_by_css("b.fnViewerSliderNumCurrent")
-        if len(_elements) != 0:
-            return _elements.first
+        elements = self.driver.find_elements_by_css_selector("b.fnViewerSliderNumCurrent")
+        if len(elements) != 0:
+            return elements[0]
         return None
 
     def _get_current_page(self):
@@ -96,8 +96,8 @@ class Manager(AbstractManager):
         現在のページを取得する
         @return 現在表示されているページ
         """
-        # print(int(self.current_page_element.html))
-        return int(self.current_page_element.html)
+        # print(int(self.current_page_element.get_attribute('innerHTML')))
+        return int(self.current_page_element.get_attribute('innerHTML'))
 
     def _next(self):
         """

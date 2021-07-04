@@ -13,5 +13,5 @@ class Runner(DirectPageRunner):
     https://comic-walker.com/viewer/?tw=2&dlcl=ja&cid=KDCW_MF09000001010005_68
     """
 
-    def __init__(self, type_, browser, config):
-        super().__init__(type_, browser, config, manager_class=Manager)
+    def __init__(self, type_, driver, config):
+        super().__init__(type_, driver, config, manager_class=Manager)

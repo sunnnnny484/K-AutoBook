@@ -3,9 +3,7 @@
 ebookjapan の実行クラスモジュール
 """
 
-import sys
-from os import path
-from datetime import datetime
+import time
 from runner import AbstractRunner
 from ebookjapan.login import YahooLogin
 from ebookjapan.manager import Manager
@@ -24,8 +22,8 @@ class Runner(AbstractRunner):
     ログイン状態
     """
 
-    def __init__(self, type_, browser, config):
-        super().__init__(type_, browser, config, SubConfig)
+    def __init__(self, type_, driver, config):
+        super().__init__(type_, driver, config, SubConfig)
 
     def run(self):
         """
@@ -39,7 +37,7 @@ class Runner(AbstractRunner):
             if self.sub_config.needs_login and self._is_login() and not self._login():
                 return
         print('Loading page of inputted url (%s)' % self.url)
-        self.browser.visit(self.url)
+        self.driver.get(self.url)
 
         if self._move_main_page():
             print('Open main page')
@@ -64,8 +62,8 @@ class Runner(AbstractRunner):
         """
         if Runner.is_login:
             return True
-        self.browser.visit(self.url)
-        if len(self.browser.find_by_css('.login')) == 0:
+        self.driver.get(self.url)
+        if len(self.driver.find_elements_by_css_selector('.login')) == 0:
             Runner.is_login = True
             return True
         return False
@@ -77,11 +75,11 @@ class Runner(AbstractRunner):
         """
         if self.sub_config.username and self.sub_config.password:
             yahoo = YahooLogin(
-                self.browser,
+                self.driver,
                 self.sub_config.username,
                 self.sub_config.password)
         else:
-            yahoo = YahooLogin(self.browser)
+            yahoo = YahooLogin(self.driver)
         if yahoo.login():
             Runner.is_login = True
             return True
@@ -91,9 +89,9 @@ class Runner(AbstractRunner):
         """
         実際の本のページに移動する
         """
-        elements = self.browser.find_by_css('.btn.btn--primary.btn--read')
-        if len(elements) != 0 and '読む' in elements.first.text:
-            elements.first.click()
+        elements = self.driver.find_elements_by_css_selector('.btn.btn--primary.btn--read')
+        if len(elements) != 0 and '読む' in elements[0].text:
+            elements[0].click()
             return True
         return False
 
@@ -101,8 +99,8 @@ class Runner(AbstractRunner):
         """
         実際の本の試し読みページに移動する
         """
-        elements = self.browser.find_by_css('.book-main__purchase > a.btn')
-        if len(elements) != 0 and '試し読み' in elements.first.text:
-            elements.first.click()
+        elements = self.driver.find_elements_by_css_selector('.book-main__purchase > a.btn')
+        if len(elements) != 0 and '試し読み' in elements[0].text:
+            elements[0].click()
             return True
         return False

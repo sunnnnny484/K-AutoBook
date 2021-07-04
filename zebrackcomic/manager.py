@@ -15,12 +15,12 @@ class Manager(AbstractManager):
     zebrack-comic の操作を行うためのクラス
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         zebrack-comic の操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver splinter のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
         self.next_key = Keys.ARROW_LEFT
         """
@@ -36,7 +36,7 @@ class Manager(AbstractManager):
         ページの自動スクリーンショットを開始する
         @return エラーが合った場合にエラーメッセージを、成功時に True を返す
         """
-        self.browser.driver.set_window_size(480, 640)
+        self.driver.set_window_size(480, 640)
 
         self._wait()
 
@@ -46,7 +46,7 @@ class Manager(AbstractManager):
         for count in range(0, total):
 
             img = self._get_img()
-            self._save_image_of_bytes(_count, get_file_content_chrome(self.browser.driver, img.get_attribute('src')))
+            self._save_image_of_bytes(count, get_file_content_chrome(self.driver, img.get_attribute('src')))
             self.pbar.update(1)
 
             self._next()
@@ -56,7 +56,7 @@ class Manager(AbstractManager):
 
     @retry(tries=3, delay=1)
     def _get_img(self):
-        return self.browser.driver.find_element_by_xpath("//img[starts-with(@src, 'blob:')]")
+        return self.driver.find_element_by_xpath("//img[starts-with(@src, 'blob:')]")
 
     def _get_total_page(self):
         """
@@ -66,10 +66,10 @@ class Manager(AbstractManager):
         """
         for _ in range(Manager.MAX_LOADING_TIME):
             try:
-                _element = self.browser.driver.find_element_by_xpath("//*[@id='root']/section/div/div/div[3]/p")
-                # print(_element.get_attribute('innerHTML'))
-                if re.match('^\\d+ / \\d+$', _element.get_attribute('innerHTML')):
-                    return int(_element.get_attribute('innerHTML').split('/')[1].strip())
+                element = self.driver.find_element_by_xpath("//*[@id='root']/section/div/div/div[3]/p")
+                # print(element.get_attribute('innerHTML'))
+                if re.match('^\\d+ / \\d+$', element.get_attribute('innerHTML')):
+                    return int(element.get_attribute('innerHTML').split('/')[1].strip())
             except:
                 time.sleep(1)
         return None
@@ -80,8 +80,8 @@ class Manager(AbstractManager):
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
         try:
-            _element = self.browser.driver.find_element_by_xpath("//*[@id='root']/section/div/div/div[3]/p")
-            return _element
+            element = self.driver.find_element_by_xpath("//*[@id='root']/section/div/div/div[3]/p")
+            return element
         except:
             return None
 

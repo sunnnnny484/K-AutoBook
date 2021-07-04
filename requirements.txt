@@ -5,6 +5,5 @@ cssselect==1.1.0
 lxml==4.6.2
 Pillow==8.1.0
 selenium==3.141.0
-splinter==0.14.0
 keyring~=21.2.1
 pycryptodome==3.9.7

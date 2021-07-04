@@ -8,8 +8,9 @@ import os
 import re
 import importlib
 from abc import ABC, abstractmethod
-from config import BasicSubConfig, ChromeCookie, SubConfigWithCookie
+from config import Config, BasicSubConfig, ChromeCookie, SubConfigWithCookie
 from manager import CoreViewManager
+from selenium.webdriver.remote.webdriver import WebDriver
 
 
 class AbstractRunner(ABC):
@@ -33,18 +34,19 @@ class AbstractRunner(ABC):
         @return bool サポートしている場合に True を返す
         """
         for checker in self.checkers:
+            # print(f"{checker} : {url}")
             if checker.match(url):
                 return True
         return False
 
-    def __init__(self, type_, browser, config, sub_config_class=None):
+    def __init__(self, type_, driver, config, sub_config_class=None):
         """
-        @param browser splinter のブラウザ情報
+        @param driver selenium のブラウザ情報
         @param config global configuration
         """
         self.type_ = type_
-        self.browser = browser
-        self.config = config
+        self.driver: WebDriver = driver
+        self.config: Config = config
         self.sub_config = sub_config_class() if sub_config_class else None
         self.url = None
         self.options = None
@@ -73,8 +75,8 @@ class AbstractRunner(ABC):
         オプションのパース方法は継承先に依存する
         """
 
-    def reset(self, browser):
-        self.browser = browser
+    def reset(self, driver: WebDriver) -> None:
+        self.driver = driver
 
     @abstractmethod
     def run(self):
@@ -164,9 +166,9 @@ class AbstractRunner(ABC):
         """
         cookie = self._get_cookie()
         if cookie:
-            self.browser.driver.get(self.sub_config.top_url)
-            self.browser.driver.delete_all_cookies()
-            self._add_cookies(self.browser.driver, self._get_cookie_dict(cookie))
+            self.driver.get(self.sub_config.top_url)
+            self.driver.delete_all_cookies()
+            self._add_cookies(self.driver, self._get_cookie_dict(cookie))
             return True
         else:
             return False
@@ -177,9 +179,9 @@ class DirectPageRunner(AbstractRunner, ABC):
     Runner for the first page is viewer direct.
     """
 
-    def __init__(self, type_, browser, config,
+    def __init__(self, type_, driver, config,
                  sub_config_class=BasicSubConfig, manager_class=CoreViewManager):
-        super().__init__(type_, browser, config, sub_config_class)
+        super().__init__(type_, driver, config, sub_config_class)
 
         self.manager_class = manager_class
 
@@ -193,12 +195,12 @@ class DirectPageRunner(AbstractRunner, ABC):
                 print('cookie has set')
 
         print('Loading page of inputted url (%s)' % self.url)
-        self.browser.visit(self.url)
+        self.driver.get(self.url)
 
         destination = self.get_output_dir()
         print(f'Output Path : {destination}')
 
-        manager = self.manager_class(self.browser, self.sub_config, destination)
+        manager = self.manager_class(self.driver, self.sub_config, destination)
         result = manager.start()
         if result is not True:
             print(result)

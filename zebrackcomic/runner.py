@@ -15,15 +15,15 @@ class Runner(AbstractRunner):
     https://zebrack-comic.com/title/37/volume/1498/viewer
     """
 
-    def __init__(self, type_, browser, config):
-        super().__init__(type_, browser, config, BasicSubConfig)
+    def __init__(self, type_, driver, config):
+        super().__init__(type_, driver, config, BasicSubConfig)
 
     def run(self):
         """
         zebrack-comic の実行
         """
         print('Loading page of inputted url (%s)' % self.url)
-        self.browser.visit(self.url)
+        self.driver.get(self.url)
 
         destination = self.get_output_dir()
         print(f'Output Path : {destination}')
@@ -34,7 +34,7 @@ class Runner(AbstractRunner):
             print('ページの取得に失敗しました')
             return
 
-        manager = Manager(self.browser, self.sub_config, destination)
+        manager = Manager(self.driver, self.sub_config, destination)
         result = manager.start()
         if result is not True:
             print(result)
@@ -48,33 +48,33 @@ class Runner(AbstractRunner):
         try:
             # skip dialog
             clazz = "div.karte-c"
-            self.browser.driver.execute_script(f'document.querySelector("{clazz}").style.display = "none";')
+            self.driver.execute_script(f'document.querySelector("{clazz}").style.display = "none";')
         except Exception:
             pass
 
-        elements = self.browser.find_by_css('button.undefined')
+        elements = self.driver.find_elements_by_css_selector('button.undefined')
         if len(elements) != 0:
-            elements.first.click()
+            elements[0].click()
             time.sleep(.5)
 
             # skip dialog 2
             time.sleep(.5)
             try:
-                elements = self.browser.driver.find_element_by_xpath("//*[text()='無料で読む']")
+                elements = self.driver.find_element_by_xpath("//*[text()='無料で読む']")
                 elements.click()
                 return True
             except Exception:
                 try:
                     # skip dialog
                     clazz = "div[class*='Modal_modalBase']"
-                    self.browser.driver.execute_script(f'document.querySelector("{clazz}").style.display = "none";')
+                    self.driver.execute_script(f'document.querySelector("{clazz}").style.display = "none";')
                 except Exception:
                     pass
 
                 # 試し読み
-                elements = self.browser.find_by_css('button[class*="MainContents_trialButton"]')
+                elements = self.driver.find_elements_by_css_selector('button[class*="MainContents_trialButton"]')
                 if len(elements) != 0:
-                    elements.first.click()
+                    elements[0].click()
                     return True
 
         return False

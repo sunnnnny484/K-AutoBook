@@ -5,7 +5,7 @@ import os
 import re
 import sys
 from os import path
-from splinter import Browser
+from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 from config import Config
 from runner import AbstractRunner
@@ -20,8 +20,8 @@ def _make_directory(directory):
             raise exception
 
 
-def _initialize_browser(config):
-    log_name = path.join(config.log_directory, 'ghostdriver.log')
+def _initialize_driver(config):
+    log_name = path.join(config.log_directory, 'driver.log')
     if config.driver == 'chrome':
         chrome_options = ChromeOptions()
         if config.chrome_binary:
@@ -31,26 +31,27 @@ def _initialize_browser(config):
         chrome_options.add_argument('device-scale-factor=1')
         chrome_options.add_argument('force-device-scale-factor=1')
         chrome_options.add_argument('disable-gpu')
+        if config.headless:
+            chrome_options.add_argument('--headless')
+        if config.user_agent:
+            chrome_options.add_argument(f'user-agent={config.user_agent}')
         # https://stackoverflow.com/a/59111770
         chrome_options.add_argument('disable-web-security')
         chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_experimental_option('useAutomationExtension', False)
 
-        browser = Browser(
-            config.driver, headless=config.headless, user_agent=config.user_agent, service_log_path=log_name,
-            options=chrome_options)
+        driver = webdriver.Chrome(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
     else:
-        browser = Browser(
-            config.driver, headless=config.headless, user_agent=config.user_agent, service_log_path=log_name)
-    return browser
+        driver = webdriver.Chrome(service_args=["--verbose", f"--log-path={log_name}"])
+    return driver
 
 
-def _reset_browser(browser, config):
+def _reset_driver(driver, config):
     if config.driver == 'chrome':
         print('close chrome driver')
-        browser.driver.close()
+        driver.close()
     print('recreate driver')
-    return _initialize_browser(config)
+    return _initialize_driver(config)
 
 
 def _main():
@@ -63,13 +64,13 @@ def _main():
     config = Config()
     _make_directory(config.log_directory)
     _make_directory(config.base_directory)
-    browser = _initialize_browser(config)
+    driver = _initialize_driver(config)
 
     stripper = re.compile(r'^\s+')
 
     plugin_classes = AbstractRunner.get_plugins()
     # print(f'{plugin_classes}')
-    plugins = [p(m, browser, config) for m, p in plugin_classes]
+    plugins = [p(m, driver, config) for m, p in plugin_classes]
 
     input_data = None
 
@@ -113,10 +114,11 @@ def _main():
             for plugin in plugins:
                 # print(plugin)
                 if plugin.check(url):
+                    if done:
+                        driver = _reset_driver(driver, config)
+                        plugin.reset(driver)
                     plugin.init(url, options)
                     plugin.run()
-                    browser = _reset_browser(browser, config)
-                    plugin.reset(browser)
                     print('', flush=True)
                     done = True
             if not done:

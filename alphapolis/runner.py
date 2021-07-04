@@ -17,5 +17,5 @@ class Runner(AbstractRunner):
         アルファポリスの実行
         """
         destination = self.get_output_dir()
-        manager = Manager(self.browser, None, destination)
+        manager = Manager(self.driver, None, destination)
         manager.start(self.url)

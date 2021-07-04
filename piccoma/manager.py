@@ -13,12 +13,12 @@ class Manager(AbstractManager):
     piccoma の操作を行うためのクラス
     """
 
-    def __init__(self, browser, config=None, directory='./', prefix=''):
+    def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         piccoma の操作を行うためのコンストラクタ
-        @param browser splinter のブラウザインスタンス
+        @param driver splinter のブラウザインスタンス
         """
-        super().__init__(browser, config, directory, prefix)
+        super().__init__(driver, config, directory, prefix)
 
         self.next_key = Keys.ARROW_LEFT
         """
@@ -36,13 +36,13 @@ class Manager(AbstractManager):
         """
         self._wait()
 
-        _canvas = self.browser.find_by_css("div.PCM-viewer2_frame canvas").first._element
-        self.browser.driver.set_window_size(int(_canvas.get_attribute('width')),
-                                            int(_canvas.get_attribute('height')))
-        print(f'size: {_canvas.get_attribute("width")}x{_canvas.get_attribute("height")}')
+        canvas = self.driver.find_elements_by_css_selector("div.PCM-viewer2_frame canvas")[0]
+        self.driver.set_window_size(int(canvas.get_attribute('width')),
+                                    int(canvas.get_attribute('height')))
+        print(f'size: {canvas.get_attribute("width")}x{canvas.get_attribute("height")}')
 
-        _touch = self.browser.find_by_css("div#react_ViewerApp").first
-        _touch.click()  # show slider
+        touch = self.driver.find_elements_by_css_selector("div#react_ViewerApp")[0]
+        touch.click()  # show slider
         self._sleep()
 
         total = self._get_total_page()
@@ -53,15 +53,15 @@ class Manager(AbstractManager):
         if self.current_page_element is None:
             return '現在のページ情報の取得に失敗しました'
 
-        _touch = self.browser.find_by_css("body").first
-        _touch.click()  # hide slider
+        touch = self.driver.find_elements_by_css_selector("body")[0]
+        touch.click()  # hide slider
         self._sleep()
 
         self._set_total(total)
         for count in range(0, total):
 
-            _canvas = self.browser.find_by_css(f"div#p{_count + 1} > div > canvas").first._element
-            self._save_image_of_web_element(_count, _canvas)
+            canvas = self.driver.find_elements_by_css_selector(f"div#p{count + 1} > div > canvas")[0]
+            self._save_image_of_web_element(count, canvas)
 
             self.pbar.update(1)
 
@@ -76,14 +76,14 @@ class Manager(AbstractManager):
         最初にフッタの出し入れをする
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
-        _elements = self.browser.find_by_css('div.PCM-viewer2_pagination_num > span:nth-child(2)')
-        if len(_elements) == 0:
+        elements = self.driver.find_elements_by_css_selector('div.PCM-viewer2_pagination_num > span:nth-child(2)')
+        if len(elements) == 0:
             # print("no total")
             return None
         for _ in range(Manager.MAX_LOADING_TIME):
-            # print(_elements.first.html)
-            if _elements.first.html != '':
-                return int(_elements.first.html)
+            # print(_elements[0].get_attribute('innerHTML'))
+            if elements[0].get_attribute('innerHTML') != '':
+                return int(elements[0].get_attribute('innerHTML'))
             time.sleep(1)
         return None
 
@@ -92,9 +92,9 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        _elements = self.browser.find_by_css('#js_cpNum')
-        if len(_elements) != 0:
-            return _elements.first
+        elements = self.driver.find_elements_by_css_selector('#js_cpNum')
+        if len(elements) != 0:
+            return elements[0]
         print("no current")
         return None
 
@@ -103,7 +103,7 @@ class Manager(AbstractManager):
         現在のページを取得する
         @return 現在表示されているページ
         """
-        return int(self.current_page_element.html)
+        return int(self.current_page_element.get_attribute('innerHTML'))
 
     def _next(self):
         """
