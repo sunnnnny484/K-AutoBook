@@ -27,7 +27,7 @@ Downloadable sites available,
 |[kuragebunch](https://kuragebunch.com/)|meta|direct file (re-rendered)|coreview|[📖](https://kuragebunch.com/episode/10834108156630826048)|
 |[cmoa](https://www.cmoa.jp/)|paging|direct file (blob, re-rendered)|uses booklive manager, cookie available|[📖](https://www.cmoa.jp/bib/speedreader/speed.html?cid=0000101745_jp_0002&u0=1&u1=0&rurl=https%3A%2F%2Fwww.cmoa.jp%2Ftitle%2F101745%2Fvol%2F2%2F)|
 |[comicaction](https://comic-action.com/)|meta|direct file (re-rendered)|coreview|[📖](https://https://comic-action.com/episode/13933686331636733009)|
-|[piccoma](https://piccoma.com/web/viewer/)|paging|canvas data| |[📖](https://piccoma.com/web/viewer/4267/1471900)|
+|[piccoma](https://piccoma.com/)|paging|canvas data| |[📖](https://piccoma.com/web/viewer/4267/1471900)|
 
 ## Requirement
 
@@ -65,9 +65,9 @@ As input data
 
 ```shell
 Input URL > https://manga.line.me/book/viewer?id=001si9is
- :
+ ︙
 Input URL > https://ebookjapan.yahoo.co.jp/books/154784/A002338262/
- :
+ ︙
 Input URL > ?[f'https://web-ace.jp/youngaceup/contents/1000032/episode/{n}/' for n in range(615, 655)]
 ```
 
@@ -75,7 +75,7 @@ As a command line argument
 
 ```shell
 $ ./k_auto_book.py 'https://zebrack-comic.com/title/1591/volume/9727' 
-:
+︙
 $ ./k_auto_book.py '?[f"https://booklive.jp/bviewer/s/?cid=731240_00{n}" for n in range(2, 6)]'
 ```
 

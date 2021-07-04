@@ -38,8 +38,8 @@ class Manager(AbstractManager):
 
         self._wait_loading()
 
-        _total = self._get_total_page()
-        if _total is None:
+        total = self._get_total_page()
+        if total is None:
             return '全ページ数の取得に失敗しました'
 
         self._sleep(2)
@@ -52,8 +52,8 @@ class Manager(AbstractManager):
 
         self._sleep()
 
-        self._set_total(_total)
-        for _count in range(0, _total):
+        self._set_total(total)
+        for count in range(0, total):
 
             _canvas = self.browser.driver.find_element_by_css_selector(".currentScreen canvas")
             self._save_image_of_web_element(_count, _canvas)

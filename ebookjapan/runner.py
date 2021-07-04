@@ -31,17 +31,13 @@ class Runner(AbstractRunner):
         """
         ebookjapan の実行
         """
-        try:
-            if (self.sub_config.needs_login and
-                    not self._is_login() and not self._login()):
+        if self._set_cookie():
+            time.sleep(1)
+            self.driver.get('https://ebookjapan.yahoo.co.jp/')
+            time.sleep(1)
+        else:
+            if self.sub_config.needs_login and self._is_login() and not self._login():
                 return
-        except Exception as e:
-            filename = 'login_error_%s.png' % datetime.now().strftime('%s')
-            self.browser.driver.save_screenshot(
-                path.join(self.config.log_directory, filename))
-            print('ログイン時にエラーが発生しました: %s' %
-                  e.with_traceback(sys.exc_info()[2]))
-            return
         print('Loading page of inputted url (%s)' % self.url)
         self.browser.visit(self.url)
 
@@ -56,12 +52,10 @@ class Runner(AbstractRunner):
         destination = self.get_output_dir()
         print(f'Output Path : {destination}')
 
-        manager = Manager(
-            self.browser, self.sub_config, destination)
+        manager = Manager(self.driver, self.sub_config, destination)
         result = manager.start()
         if result is not True:
             print(result)
-        return
 
     def _is_login(self):
         """

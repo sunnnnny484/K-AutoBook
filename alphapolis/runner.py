@@ -3,7 +3,6 @@
 アルファポリスの実行クラスモジュール
 """
 
-import re
 from runner import AbstractRunner
 from alphapolis.manager import Manager
 

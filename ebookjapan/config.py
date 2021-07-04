@@ -1,12 +1,12 @@
 # --- coding: utf-8 ---
 """
-ブックストアの設定モジュール
+ebookjapanの設定モジュール
 """
 
-from config import BoundOnSide, BasicSubConfig
+from config import SubConfigWithCookie
 
 
-class SubConfig(BasicSubConfig):
+class SubConfig(SubConfigWithCookie):
     """
     設定情報を管理するためのクラス
     """
@@ -14,14 +14,9 @@ class SubConfig(BasicSubConfig):
     def __init__(self):
         """
         設定情報を管理するためのコンストラクタ
-        @param data 設定情報
         """
         super().__init__()
 
-        self.bound_on_side = BoundOnSide.LEFT
-        """
-        本の綴じ場所
-        """
         self.blank_check_excludes = set()
         """
         black page checking excludes pages, negative number or zero means (total - 1 + negative_number)
@@ -39,8 +34,6 @@ class SubConfig(BasicSubConfig):
         """
         super().update(data)
 
-        if 'bound_on_side' in data:
-            self._set_bound_on_side(data['bound_on_side'])
         if 'blank_check_excludes' in data:
             self.blank_check_excludes = eval(data['blank_check_excludes'])
         if 'blank_check_giveup' in data:

@@ -27,12 +27,12 @@ class Manager(AbstractManager):
         """
         session = self._get_session()
 
-        _sources = self._get_image_urls(session, url)
-        _total = len(_sources)
-        self._set_total(_total)
+        sources = self._get_image_urls(session, url)
+        total = len(sources)
+        self._set_total(total)
 
-        for _index in range(_total):
-            self._save_image_of_bytes(_index, session.get(_sources[_index]).content)
+        for index in range(total):
+            self._save_image_of_bytes(index, session.get(sources[index]).content)
             self.pbar.update(1)
 
         return True
@@ -44,11 +44,11 @@ class Manager(AbstractManager):
         @param url アルファボリスで漫画を表示しているページの URL
         @return ページの URL のリスト
         """
-        _response = session.get(url)
-        if _response.status_code != 200:
+        response = session.get(url)
+        if response.status_code != 200:
             raise Exception("漫画データの取得に失敗しました")
-        _html = _response.text
-        _matches = re.findall('_pages.push\\("(https://.+\\.jpg)"\\);', _html)
-        if len(_matches) == 0:
+        html = response.text
+        matches = re.findall('_pages.push\\("(https://.+\\.jpg)"\\);', html)
+        if len(matches) == 0:
             raise Exception("漫画のページ情報の取得に失敗しました")
-        return [_page for _page in _matches]
+        return [_page for _page in matches]

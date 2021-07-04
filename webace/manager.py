@@ -35,12 +35,12 @@ class Manager(AbstractManager):
 
         session = self._get_session()
 
-        for _count, img in enumerate(imgs):
+        for count, img in enumerate(imgs):
 
-            _url = img._element.get_attribute('src')
-            # print(_url)
+            url = img.get_attribute('src')
+            # print(url)
 
-            self._save_image_of_bytes(_count, session.get(_url).content)
+            self._save_image_of_bytes(count, session.get(url).content)
 
             self.pbar.update(1)
             self._sleep()

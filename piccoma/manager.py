@@ -45,8 +45,8 @@ class Manager(AbstractManager):
         _touch.click()  # show slider
         self._sleep()
 
-        _total = self._get_total_page()
-        if not _total:
+        total = self._get_total_page()
+        if not total:
             return '全ページ数の取得に失敗しました'
 
         self.current_page_element = self._get_current_page_element()
@@ -57,8 +57,8 @@ class Manager(AbstractManager):
         _touch.click()  # hide slider
         self._sleep()
 
-        self._set_total(_total)
-        for _count in range(0, _total):
+        self._set_total(total)
+        for count in range(0, total):
 
             _canvas = self.browser.find_by_css(f"div#p{_count + 1} > div > canvas").first._element
             self._save_image_of_web_element(_count, _canvas)
@@ -109,8 +109,8 @@ class Manager(AbstractManager):
         """
         次のページに進む
         """
-        _current_page = self._get_current_page()
+        current_page = self._get_current_page()
         self._press_key(self.next_key)
         if self._get_current_page() < self.pbar.total - 1:
-            while self._get_current_page() != _current_page + 1:
+            while self._get_current_page() != current_page + 1:
                 time.sleep(0.1)

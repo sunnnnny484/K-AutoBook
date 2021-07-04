@@ -88,18 +88,18 @@ class Manager(AbstractManager):
         self.browser.driver.switch_to.frame(0)
         self._fix_window_size()
 
-        _total = self._get_total_page()
-        if _total is None:
+        total = self._get_total_page()
+        if total is None:
             return '全ページ数の取得に失敗しました'
 
-        _excludes = self._get_blank_check_exclude_pages(_total)
-        print(f'excludes: {_excludes}')
+        excludes = self._get_blank_check_exclude_pages(total)
+        print(f'excludes: {excludes}')
 
         self.current_page_element = self._get_current_page_element()
         if self.current_page_element is None:
             return '現在のページ情報の取得に失敗しました'
 
-        self._set_total(_total)
+        self._set_total(total)
 
         self._save_image(0, self._capture())
 
@@ -110,10 +110,10 @@ class Manager(AbstractManager):
         # different size from cover
         self._fix_window_size()
 
-        for _count in range(1, _total):
+        for _count in range(1, total):
 
             self.retry_count = 0
-            self._save_image(_count, self._capture(_count in _excludes))
+            self._save_image(_count, self._capture(_count in excludes))
             self.pbar.update(1)
 
             self._next()
@@ -166,12 +166,12 @@ class Manager(AbstractManager):
         """
         @param ignore_blank キャプチャミスを無視するかどうか
         """
-        _base64_image = self.browser.driver.get_screenshot_as_base64()
-        _image = Image.open(io.BytesIO(base64.b64decode(_base64_image)))
+        base64_image = self.driver.get_screenshot_as_base64()
+        image = Image.open(io.BytesIO(base64.b64decode(base64_image)))
         if self._is_config_jpeg():
-            _image = _image.convert('RGB')
+            image = image.convert('RGB')
 
-        if self._is_blank_image(_image):
+        if self._is_blank_image(image):
             print(f' blank page detected {self.retry_count}')
             if not ignore_blank:
                 if self.retry_count < self.config.blank_check_giveup:
@@ -180,13 +180,13 @@ class Manager(AbstractManager):
                 else:
                     print(' give up checking, ignore blank')
 
-        return _image
+        return image
 
     @staticmethod
     def _is_blank_image(image):
-        _width, _height = image.size
-        for y in range(_height):
-            for x in range(_width):
+        width, height = image.size
+        for y in range(height):
+            for x in range(width):
                 r, g, b = image.getpixel((x, y))
                 if r != 255 or g != 255 or b != 255:
                     return False
@@ -197,8 +197,8 @@ class Manager(AbstractManager):
         次のページに進む
         スペースで次のページにすすめるのでスペースキー固定
         """
-        _current_page = self._get_current_page()
+        current_page = self._get_current_page()
         self._press_key(self.next_key)
         if self._get_current_page() and self._get_current_page() < self.pbar.total - 1:
-            while self._get_current_page() and self._get_current_page() != _current_page + 1:
+            while self._get_current_page() and self._get_current_page() != current_page + 1:
                 time.sleep(0.1)

@@ -37,7 +37,7 @@ class Manager(AbstractManager):
 
         self.browser.driver.set_window_size(480, 640)
 
-        _count = 0
+        count = 0
         while True:
 
             img = self._get_img()
@@ -52,7 +52,7 @@ class Manager(AbstractManager):
                 self._next()
                 self._sleep()
 
-                _count = _count + 1
+                count = count + 1
 
         return True
 

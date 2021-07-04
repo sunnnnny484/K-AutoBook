@@ -68,7 +68,7 @@ class Config:
 
     def update(self):
         """
-        設定情報を更新する
+        update configuration for save
         """
         if 'driver' in self.raw:
             self.driver = self.raw['driver']
@@ -94,41 +94,47 @@ class Config:
             _data = json.load(_file)
         return _data
 
-    def save_sub_cookie(self, sub_key, cookie):
-        if sub_key not in self.raw:
-            self.raw[sub_key] = dict()
-        self.raw[sub_key]['cookie'] = cookie
+    def save(self):
         _path = path.join(path.abspath(path.dirname(__file__)), Config._file_name)
         with open(_path, 'w') as _file:
             json.dump(self.raw, _file, indent=4, sort_keys=False)
 
+    def save_sub_cookie(self, sub_key, cookie):
+        """
+        stores a cookie into config.json
+        """
+        if sub_key not in self.raw:
+            self.raw[sub_key] = dict()
+        self.raw[sub_key]['cookie'] = cookie
+        self.save()
+
 
 class ImageFormat(IntEnum):
     """
-    書き出す画像のフォーマット
+    imgae writing format
     """
 
     JPEG = 1
     """
-    JPEG フォーマット
+    save as JPEG
     """
     PNG = 2
     """
-    PNG フォーマット
+    save as PNG
     """
 
 
 class BoundOnSide(IntEnum):
     """
-    本の綴じ場所情報
+    book binding direction
     """
     RIGHT = 1
     """
-    右綴じ
+    right binding
     """
     LEFT = 2
     """
-    左綴じ
+    left binding
     """
 
 
@@ -166,7 +172,7 @@ class AbstractConfig(ABC):
     def _set_image_format(self, format_):
         """
         書き出す画像のフォーマットを設定する
-        使用できるフォーマットは bookstore.ImageFormat.ImageFormat に記されている
+        使用できるフォーマットは ImageFormat に記されている
         @param format_ 画像のフォーマット
         """
         if isinstance(format_, str):
@@ -184,7 +190,7 @@ class AbstractConfig(ABC):
     def _set_bound_on_side(self, bound_on_side):
         """
         本の閉じ場所を設定する
-        使用できる場所は bookstore.BoundOnSide.BoundOnSide に記されている
+        使用できる場所は BoundOnSide に記されている
         @param bound_on_side 本の綴じ場所
         """
         if isinstance(bound_on_side, str):

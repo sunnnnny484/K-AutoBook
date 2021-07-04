@@ -35,12 +35,12 @@ class Manager(AbstractManager):
         """
         session = self._get_session()
 
-        self.fetch_episode(session, self.directory, self.cid)
+        self._fetch_episode(session, self.directory, self.cid)
 
         return True
 
     @staticmethod
-    def generate(key):
+    def _generate(key):
         result = []
         for i, k in enumerate(key):
             code = ord(k)
@@ -51,21 +51,21 @@ class Manager(AbstractManager):
                 result[(i - 1) // 2] += code
         return result
 
-    def fetch_page(self, session, title, page, count):
+    def _fetch_page(self, session, title, page, count):
         # pid = page['id']
         fn = os.path.join(title, '%03d' % count + self._get_extension())
         with open(fn, 'wb') as f:
             url = page['meta']['source_url']
-            key = Manager.generate(page['meta']['drm_hash'][:16])
+            key = Manager._generate(page['meta']['drm_hash'][:16])
             resp = session.get(url, stream=True, timeout=30)
             for i, c in enumerate(resp.content):
                 f.write(struct.pack('B', c ^ key[i % 8]))
 
-    def fetch_episode(self, session, title, cid):
+    def _fetch_episode(self, session, title, cid):
         resp = session.get('https://ssl.seiga.nicovideo.jp/api/v1/comicwalker/episodes/' + cid + '/frames', timeout=30)
         frame = json.loads(resp.text)['data']['result']
         self._set_total(len(frame))
         for i, page in enumerate(frame):
-            self.fetch_page(session, title, page, i)
+            self._fetch_page(session, title, page, i)
             self.pbar.update(1)
             self._sleep()

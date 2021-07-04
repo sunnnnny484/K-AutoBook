@@ -26,7 +26,7 @@ class Manager(AbstractManager):
         """
         次のページに進むためのキー
         """
-        self.current_page_element = None
+        self._current_page_element = None
         """
         現在表示されているページのページ番号が表示されるエレメント
         """
@@ -40,10 +40,10 @@ class Manager(AbstractManager):
 
         self._wait()
 
-        _total = self._get_total_page()
-        self._set_total(_total)
+        total = self._get_total_page()
+        self._set_total(total)
 
-        for _count in range(0, _total):
+        for count in range(0, total):
 
             img = self._get_img()
             self._save_image_of_bytes(_count, get_file_content_chrome(self.browser.driver, img.get_attribute('src')))
@@ -98,8 +98,8 @@ class Manager(AbstractManager):
         次のページに進む
         スペースで次のページにすすめるのでスペースキー固定
         """
-        _current_page = self._get_current_page()
+        current_page = self._get_current_page()
         self._press_key(self.next_key)
         if self._get_current_page() < self.pbar.total - 1:
-            while self._get_current_page() != _current_page + 1:
+            while self._get_current_page() != current_page + 1:
                 time.sleep(0.1)
