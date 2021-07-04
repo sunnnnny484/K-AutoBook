@@ -76,7 +76,12 @@ class Manager(AbstractManager):
         """
         TODO without any reasons
         """
-        if 534 <= base <= 536:  # 1600
+        if 341 <= base <= 344:  # 1024
+            if last:
+                base = 342
+            else:
+                base = 341
+        elif 534 <= base <= 536:  # 1600
             if last:
                 base = 534
             else:
