@@ -136,13 +136,16 @@ class AbstractRunner(ABC):
 
     def _get_cookie(self):
         if self.sub_config.cookie:
-            # TODO check expiry automatically
+            # print(f'USE CONFIG COOKIE: {self.sub_config.cookie}')
             return self.sub_config.cookie
-        elif self.config.chrome_cookie_db:
+
+        if self.config.chrome_cookie_db and self.sub_config.host_key:
             cookie = ChromeCookie(self.config.chrome_cookie_db).get_cookie(self.sub_config.host_key)
-            self.config.save_sub_cookie(self.type_, cookie)
+            # self.config.save_sub_cookie(self.type_, cookie)
+            # print(f'USE CHROME COOKIE: {cookie}')
             return cookie
         else:
+            print('no chrome_cookie_db nor host_key in config.json')
             return None
 
     @staticmethod

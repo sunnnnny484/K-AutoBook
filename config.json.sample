@@ -4,6 +4,7 @@
     "headless":true,
     "log_directory": "logs",
     "base_directory": "data",
+    "chrome_cookie_db": "/Users/nsano/Library/Application Support/Google/Chrome/Default/Cookies",
     "alphapolis": {
         "domain": "www\\.alphapolis\\.co\\.jp",
         "patterns": [
@@ -27,7 +28,8 @@
     "cmoa": {
         "domain": "www\\.cmoa\\.jp",
         "patterns": ["bib\\/speedreader\\/speed.html\\?cid=(\\d{10}_[a-z]{2}_\\d{4})"],
-        "cookie": "how to get cookie: see 'https://github.com/xuzhengyi1995/Bookwalker_Downloader' (!!! caution: target site is 'https://www.cmoa.jp/' !!!)"
+        "host_key": ".cmoa.jp",
+        "top_url": "https://www.cmoa.jp"
     },
     "comicaction": {
         "domain": "comic-action\\.com",
@@ -71,9 +73,8 @@
         "needs_login": false,
         "username": "not implemented yet",
         "password": "not implemented yet",
-        "image_format": "JPEG",
-        "sleep_time": 0.5,
-        "cookie": "how to get cookie: see 'https://github.com/xuzhengyi1995/Bookwalker_Downloader' (!!! caution: target site is 'https://manga.line.me/' !!!)"
+        "host_key": ".line.me",
+        "top_url": "https://manga.line.me"
     },
     "magazinepocket": {
         "domain": "pocket\\.shonenmagazine\\.com",
@@ -81,9 +82,7 @@
     },
     "mangacross": {
         "domain": "mangacross\\.jp",
-        "patterns": ["comics\\/(\\w+)\\/([0-9]+)"],
-        "needs_login": false,
-        "cookie": "how to get cookie: see 'https://github.com/xuzhengyi1995/Bookwalker_Downloader' (!!! caution: target site is 'https://mangacross.jp/' !!!)"
+        "patterns": ["comics\\/(\\w+)\\/([0-9]+)"]
     },
     "webace": {
         "domain": "web-ace\\.jp",

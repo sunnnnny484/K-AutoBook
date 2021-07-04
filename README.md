@@ -91,10 +91,16 @@ $ ./k_auto_book.py '?[f"https://booklive.jp/bviewer/s/?cid=731240_00{n}" for n i
 #### how do i set cookie automatically (currently mac only?)
  * remove `site.cookie` in `config.json`
  * add `chrome_cookie_db` in `config.json`
- * `site.cookie` in `config.json` will be created automatically
+ * add `site.host_key` and `site.top_url` in `config.json`
 
 ```Json
     "chrome_cookie_db": "/Users/you/Library/Application Support/Google/Chrome/Default/Cookies",
+     ︙
+    "cmoa": {
+         ︙
+        "host_key": ".cmoa.jp",
+        "top_url": "https://www.cmoa.jp"
+    },
 ```
 
 ## TODO
