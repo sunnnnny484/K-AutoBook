@@ -141,8 +141,8 @@ class YahooLogin(object):
         result = result and self.driver.title == '文字認証を行います。 - Yahoo! JAPAN'
         if result:
             names = []
-            for input in self.driver.find_element_by_tag_name('input'):
-                names.append(input['name'])
+            for input_ in self.driver.find_element_by_tag_name('input'):
+                names.append(input_['name'])
             checks = [
                 'captchaCdata',
                 'captchaMultiByteCaptchaId',

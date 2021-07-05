@@ -4,7 +4,7 @@
     "headless":true,
     "log_directory": "logs",
     "base_directory": "data",
-    "chrome_cookie_db": "/Users/nsano/Library/Application Support/Google/Chrome/Default/Cookies",
+    "chrome_cookie_db": "/Users/you/Library/Application Support/Google/Chrome/Default/Cookies",
     "alphapolis": {
         "domain": "www\\.alphapolis\\.co\\.jp",
         "patterns": [
@@ -70,9 +70,6 @@
     "linemanga": {
         "domain": "manga\\.line\\.me",
         "patterns": ["book\\/viewer\\?id=([0-9a-zA-Z-]+)"],
-        "needs_login": false,
-        "username": "not implemented yet",
-        "password": "not implemented yet",
         "host_key": ".line.me",
         "top_url": "https://manga.line.me"
     },

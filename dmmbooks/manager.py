@@ -15,6 +15,7 @@ class Manager(AbstractManager):
     dmm books の操作を行うためのクラス
 
     TODO only the first time is successful, after 2nd time got a failure first page. why?
+    TODO reset to first page
     """
 
     def __init__(self, driver, config=None, directory='./', prefix=''):

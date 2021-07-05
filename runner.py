@@ -174,6 +174,7 @@ class AbstractRunner(ABC):
             self._add_cookies(self.driver, self._get_cookie_dict(cookie))
             return True
         else:
+            print('not set cookie')
             return False
 
 

@@ -34,7 +34,7 @@ Downloadable sites available,
 
 * `Python` Python 3 (tested with 3.9.1)
 * `pip` (tested with 20.3.3)
-* [`ChromeDriver`](https://chromedriver.chromium.org/downloads) (tested with 87.0.4280.88)
+* [`ChromeDriver`](https://chromedriver.chromium.org/downloads) (tested with 91.0.4472.19)
 
 ## Install
 
@@ -85,7 +85,7 @@ $ ./k_auto_book.py '?[f"https://booklive.jp/bviewer/s/?cid=731240_00{n}" for n i
 #### how do i specify download directory
  * add `base_directory` in `config.json`
 
-```Json
+```
     "base_directory": "/Users/you/Downloads",
 ```
 
@@ -94,7 +94,7 @@ $ ./k_auto_book.py '?[f"https://booklive.jp/bviewer/s/?cid=731240_00{n}" for n i
  * add `chrome_cookie_db` in `config.json`
  * add `site.host_key` and `site.top_url` in `config.json`
 
-```Json
+```
     "chrome_cookie_db": "/Users/you/Library/Application Support/Google/Chrome/Default/Cookies",
      ︙
     "cmoa": {
