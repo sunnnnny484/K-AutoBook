@@ -62,7 +62,7 @@ class YahooLogin(object):
         print('Loading Yahoo JAPAN! top page')
         self.driver.get(self.YAHOO_JAPAN_URL)
         print('Loading login page')
-        url = self.driver.find_elements_by_css_selector('#Login [data-rapid_p]')[0]['href']
+        url = self.driver.find_elements_by_css_selector('#Login [data-rapid_p]')[0].get_attribute('href')
         self.driver.get(url)
         for try_count in range(4):
             yahoo_id = input('Input Yahoo ID > ') if (
@@ -70,7 +70,7 @@ class YahooLogin(object):
             password = getpass('Input Password > ') if (
                 self.password is None) else self.password
             print('Trying login: ' + yahoo_id)
-            self.driver.find_element_by_id('login').send_keys(yahoo_id)
+            self.driver.find_element_by_id('username').send_keys(yahoo_id)
             print('Confirm Yahoo JAPAN! ID')
             self.driver.find_element_by_id('btnNext').click()
             time.sleep(1)

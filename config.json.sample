@@ -47,11 +47,8 @@
         "domain": "ebookjapan\\.yahoo\\.co\\.jp",
         "patterns": ["books\\/(\\d+)\\/([A-Z]{1}\\d+)"],
         "needs_login": false,
-        "username": "",
-        "password": "",
-        "image_format": "JPEG",
-        "sleep_time": 0.5,
-        "bound_on_side": "right",
+        "username": "your_id",
+        "password": "your_password",
         "blank_check_excludes": "(1, -1, 0)",
         "blank_check_giveup": 5
     },

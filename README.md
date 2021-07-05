@@ -12,7 +12,7 @@ Downloadable sites available,
 |site|method|image|note|sample url|
 |----|------|-----|----|----------|
 |[alphapolis](http://www.alphapolis.co.jp/)|meta|direct file| |[📖](http://www.alphapolis.co.jp/manga/viewManga/46) [📖](http://www.alphapolis.co.jp/manga/viewOpening/138000030/)|
-|[ebookjapan](http://ebookjapan.yahoo.co.jp/)|paging|screen capture| |[📖](https://ebookjapan.yahoo.co.jp/books/145222/A000100547)|
+|[ebookjapan](http://ebookjapan.yahoo.co.jp/)|paging|screen capture| cookie doesn't work |[📖](https://ebookjapan.yahoo.co.jp/books/145222/A000100547)|
 |[bookpass](https://bookpass.auone.jp/)|paging|canvas data| |[📖](https://bookpass.auone.jp/pack/detail/?iid=BT000069318400100101&cs=top_freecomics_reco_670&pos=2&tab=1&ajb=3)|
 |[bookwalker](https://bookwalker.jp/)|paging|canvas data| |[📖](https://viewer.bookwalker.jp/browserWebApi/03/view?cid=57c84cf2-7062-4ef9-9071-45fb249c926e)|
 |[comicdays](https://comic-days.com/)|meta|direct file (re-rendered)|coreview|[📖](https://comic-days.com/volume/13932016480030155016)|
@@ -104,9 +104,24 @@ $ ./k_auto_book.py '?[f"https://booklive.jp/bviewer/s/?cid=731240_00{n}" for n i
     },
 ```
 
+#### how do i set cookie (for windows)
+
+ * add `site.cookie` and `site.host_key` and `site.top_url` in `config.json`
+
+```
+     ︙
+    "cmoa": {
+         ︙
+        "cookie": "how to get cookie: see 'https://github.com/xuzhengyi1995/Bookwalker_Downloader'",
+        "host_key": ".cmoa.jp",
+        "top_url": "https://www.cmoa.jp"
+    },
+```
+
 ## TODO
 
  * update cookie automatically on windows
+ * yahoo! japan (ebookjapan) cookie
 
 ## Author
 

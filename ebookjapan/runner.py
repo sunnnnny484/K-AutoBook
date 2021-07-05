@@ -15,6 +15,9 @@ class Runner(AbstractRunner):
     ebookjapan の実行クラス
 
     https://ebookjapan.yahoo.co.jp/books/145222/A000100547
+
+    if you want to scrape purchased items, set your yahoo japan login settings to 'use password login'
+    instead of other login methods like 'sms authentication'.
     """
 
     is_login = False
@@ -34,7 +37,8 @@ class Runner(AbstractRunner):
             self.driver.get('https://ebookjapan.yahoo.co.jp/')
             time.sleep(1)
         else:
-            if self.sub_config.needs_login and self._is_login() and not self._login():
+            if self.sub_config.needs_login and not self._is_login() and not self._login():
+                print('cannot login')
                 return
         print('Loading page of inputted url (%s)' % self.url)
         self.driver.get(self.url)

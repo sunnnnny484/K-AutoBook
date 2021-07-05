@@ -16,6 +16,8 @@ from manager import AbstractManager
 class Manager(AbstractManager):
     """
     ebookjapanの操作を行うためのクラス
+
+    TODO reset to first page
     """
 
     def __init__(self, driver, config=None, directory='./', prefix=''):
