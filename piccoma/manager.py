@@ -16,7 +16,7 @@ class Manager(AbstractManager):
     def __init__(self, driver, config=None, directory='./', prefix=''):
         """
         piccoma の操作を行うためのコンストラクタ
-        @param driver splinter のブラウザインスタンス
+        @param driver selenium のブラウザインスタンス
         """
         super().__init__(driver, config, directory, prefix)
 

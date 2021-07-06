@@ -2,6 +2,7 @@
 """
 piccoma の実行クラスモジュール
 """
+
 from piccoma.manager import Manager
 from runner import DirectPageRunner
 
