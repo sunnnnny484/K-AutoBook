@@ -101,5 +101,11 @@
         ],
         "host_key": ".dmm.com",
         "top_url": "https://book.dmm.com"
+    },
+    "sukima": {
+        "domain": "www\\.sukima\\.me",
+        "patterns": [
+            "bv\\/t\\/(\\w+)\\/v\\/(\\d+)\\/s\\/(\\d+)\\/p\\/\\d+"
+        ]
     }
 }

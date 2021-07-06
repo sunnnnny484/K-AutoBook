@@ -29,6 +29,7 @@ Downloadable sites available,
 |[comicaction](https://comic-action.com/)|meta|direct file (re-rendered)|coreview|[📖](https://https://comic-action.com/episode/13933686331636733009)|
 |[piccoma](https://piccoma.com/)|paging|canvas data| |[📖](https://piccoma.com/web/viewer/4267/1471900)|
 |[dmmbooks](https://book.dmm.com/)|paging|canvas data| |[📖](https://book.dmm.com/library/?age_limit=all&expired=0&item_id=b900pkds04308)|
+|[sukima](https://sukima.me/)|paging|canvas data| |[📖](https://www.sukima.me/bv/t/BT0000185480/v/1/s/1/p/0)|
 
 ## Requirement
 
