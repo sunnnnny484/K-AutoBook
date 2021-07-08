@@ -30,6 +30,7 @@ Downloadable sites available,
 |[piccoma](https://piccoma.com/)|paging|canvas data| |[📖](https://piccoma.com/web/viewer/4267/1471900)|
 |[dmmbooks](https://book.dmm.com/)|paging|canvas data| |[📖](https://book.dmm.com/library/?age_limit=all&expired=0&item_id=b900pkds04308)|
 |[sukima](https://sukima.me/)|paging|canvas data| |[📖](https://www.sukima.me/bv/t/BT0000185480/v/1/s/1/p/0)|
+|[tonarinoyj](https://tonarinoyj.jp/)|meta|direct file (re-rendered)|coreview|[📖](https://tonarinoyj.jp/episode/13933686331663810200)|
 
 ## Requirement
 
@@ -117,6 +118,17 @@ $ ./k_auto_book.py '?[f"https://booklive.jp/bviewer/s/?cid=731240_00{n}" for n i
         "host_key": ".cmoa.jp",
         "top_url": "https://www.cmoa.jp"
     },
+```
+
+#### list coreview urls
+
+at the developer console on a browser
+
+```ecmascript
+var elements = document.getElementsByClassName("series-episode-list-container");
+for (var i = 0; i < elements.length; i++) {
+  console.log(elements[i].getAttribute('href'));
+}
 ```
 
 ## TODO

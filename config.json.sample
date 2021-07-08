@@ -107,5 +107,12 @@
         "patterns": [
             "bv\\/t\\/(\\w+)\\/v\\/(\\d+)\\/s\\/(\\d+)\\/p\\/\\d+"
         ]
+    },
+    "tonarinoyj": {
+        "domain": "tonarinoyj\\.jp",
+        "patterns": [
+            "volume\\/(\\d+)",
+            "episode\\/(\\d+)"
+        ]
     }
 }
