@@ -12,13 +12,13 @@ Downloadable sites available,
 |site|method|image|note|sample url|
 |----|------|-----|----|----------|
 |[alphapolis](http://www.alphapolis.co.jp/)|meta|direct file| |[📖](http://www.alphapolis.co.jp/manga/viewManga/46) [📖](http://www.alphapolis.co.jp/manga/viewOpening/138000030/)|
-|[ebookjapan](http://ebookjapan.yahoo.co.jp/)|paging|screen capture| cookie doesn't work |[📖](https://ebookjapan.yahoo.co.jp/books/145222/A000100547)|
+|[ebookjapan](http://ebookjapan.yahoo.co.jp/)|paging|screen capture|login available, cookie doesn't work |[📖](https://ebookjapan.yahoo.co.jp/books/145222/A000100547)|
 |[bookpass](https://bookpass.auone.jp/)|paging|canvas data| |[📖](https://bookpass.auone.jp/pack/detail/?iid=BT000069318400100101&cs=top_freecomics_reco_670&pos=2&tab=1&ajb=3)|
 |[bookwalker](https://bookwalker.jp/)|paging|canvas data| |[📖](https://viewer.bookwalker.jp/browserWebApi/03/view?cid=57c84cf2-7062-4ef9-9071-45fb249c926e)|
 |[comicdays](https://comic-days.com/)|meta|direct file (re-rendered)|coreview|[📖](https://comic-days.com/volume/13932016480030155016)|
 |[comicwalker](https://comic-walker.com/)|meta|direct file (decrypted)| |[📖](https://comic-walker.com/viewer/?tw=2&dlcl=ja&cid=KDCW_MF09000001010005_68)|
 |[ganganonline](https://www.ganganonline.com/)|paging|direct file (blob)| |[📖](https://viewer.ganganonline.com/manga/?chapterId=15502)|
-|[linemanga](https://manga.line.me/)|paging|screen capture|(needs to update cookie on windows)|[📖](https://manga.line.me/book/viewer?id=92dc0b4e-c5d4-4518-9fba-d78fb1e6b0f0)|
+|[linemanga](https://manga.line.me/)|paging|screen capture|cookie available|[📖](https://manga.line.me/book/viewer?id=92dc0b4e-c5d4-4518-9fba-d78fb1e6b0f0)|
 |[webace](https://web-ace.jp/)|meta|direct file| |[📖](https://web-ace.jp/youngaceup/contents/1000053/episode/1092/)|
 |[zebrackcomic](https://zebrack-comic.com/)|paging|direct file (blob)| |[📖](https://zebrack-comic.com/title/37/volume/1498/viewer)|
 |[booklive](https://booklive.jp/)|paging|direct file (blob, re-rendered)| |[📖](https://booklive.jp/bviewer/s/?cid=208562_003&rurl=https%3A%2F%2Fbooklive.jp%2Findex%2Fno-charge%2Fcategory_id%2FC)|
@@ -28,8 +28,8 @@ Downloadable sites available,
 |[cmoa](https://www.cmoa.jp/)|paging|direct file (blob, re-rendered)|uses booklive manager, cookie available|[📖](https://www.cmoa.jp/bib/speedreader/speed.html?cid=0000101745_jp_0002&u0=1&u1=0&rurl=https%3A%2F%2Fwww.cmoa.jp%2Ftitle%2F101745%2Fvol%2F2%2F)|
 |[comicaction](https://comic-action.com/)|meta|direct file (re-rendered)|coreview|[📖](https://https://comic-action.com/episode/13933686331636733009)|
 |[piccoma](https://piccoma.com/)|paging|canvas data| |[📖](https://piccoma.com/web/viewer/4267/1471900)|
-|[dmmbooks](https://book.dmm.com/)|paging|canvas data| |[📖](https://book.dmm.com/library/?age_limit=all&expired=0&item_id=b900pkds04308)|
-|[sukima](https://sukima.me/)|paging|canvas data| |[📖](https://www.sukima.me/bv/t/BT0000185480/v/1/s/1/p/0)|
+|[dmmbooks](https://book.dmm.com/)|paging|canvas data|cookie available|[📖](https://book.dmm.com/library/?age_limit=all&expired=0&item_id=b900pkds04308)|
+|[sukima](https://www.sukima.me/)|paging|canvas data| |[📖](https://www.sukima.me/bv/t/BT0000185480/v/1/s/1/p/0)|
 |[tonarinoyj](https://tonarinoyj.jp/)|meta|direct file (re-rendered)|coreview|[📖](https://tonarinoyj.jp/episode/13933686331663810200)|
 
 ## Requirement
