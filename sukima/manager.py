@@ -32,14 +32,6 @@ class Manager(AbstractManager):
         """
         self._wait()
 
-        # make ad clickable
-        self.driver.set_window_size(1024, 640)
-        self._sleep()
-
-        touch = self.driver.find_elements_by_css_selector("div.popupad-box.text-center > div.text-center > div > a > div")[0]
-        touch.click()  # hide ad
-        self._sleep()
-
         self.driver.set_window_size(480, 640)
         self._sleep()
 
