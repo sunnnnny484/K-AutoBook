@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-操作を行うためのクラスモジュール
+This module manages scraping.
 """
 
 import base64
@@ -24,33 +24,33 @@ from config import AbstractConfig, ImageFormat
 
 class AbstractManager(ABC):
     """
-    base class for manager
+    This class is the base class for manager.
     """
 
     MAX_LOADING_TIME = 10
     """
-    初回読み込み時の最大待ち時間
+    max waiting time for first loading.
     """
 
     def __init__(self, driver=None, config=None, directory='./', prefix=''):
         """
-        @param driver selenium のブラウザインスタンス
+        @param driver the selenium instance
         """
         self.driver: WebDriver = driver
         """
-        splinter のブラウザインスタンス
+        the selenium instance.
         """
         self.config = config if isinstance(config, AbstractConfig) else None
         """
-        設定情報
+        common configuration.
         """
         self.directory = None
         """
-        ファイルを出力するディレクトリ
+        file output directory.
         """
         self.prefix = prefix
         """
-        出力するファイルのプレフィックス
+        output files prefix.
         """
         self.pbar = None
         """
@@ -66,7 +66,7 @@ class AbstractManager(ABC):
 
     def _set_directory(self, directory):
         """
-        ファイルを出力するディレクトリを設定する
+        Sets output directory.
         """
         if directory == '':
             self.directory = './'
@@ -140,7 +140,7 @@ class AbstractManager(ABC):
 
     def _press_key(self, key):
         """
-        指定したキーを押す
+        Presses a specified key.
         """
         ActionChains(self.driver).key_down(key).perform()
 

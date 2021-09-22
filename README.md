@@ -21,16 +21,18 @@ Downloadable sites available,
 |[linemanga](https://manga.line.me/)|paging|screen capture|cookie available|[📖](https://manga.line.me/book/viewer?id=92dc0b4e-c5d4-4518-9fba-d78fb1e6b0f0)|
 |[webace](https://web-ace.jp/)|meta|direct file| |[📖](https://web-ace.jp/youngaceup/contents/1000053/episode/1092/)|
 |[zebrackcomic](https://zebrack-comic.com/)|paging|direct file (blob)| |[📖](https://zebrack-comic.com/title/37/volume/1498/viewer)|
-|[booklive](https://booklive.jp/)|paging|direct file (blob, re-rendered)| |[📖](https://booklive.jp/bviewer/s/?cid=208562_003&rurl=https%3A%2F%2Fbooklive.jp%2Findex%2Fno-charge%2Fcategory_id%2FC)|
+|[booklive](https://booklive.jp/)|paging|direct file (blob, re-rendered)|BinB |[📖](https://booklive.jp/bviewer/s/?cid=208562_003&rurl=https%3A%2F%2Fbooklive.jp%2Findex%2Fno-charge%2Fcategory_id%2FC)|
 |[jumpplus](https://shonenjumpplus.com/)|meta|direct file (re-rendered)|coreview|[📖](https://shonenjumpplus.com/episode/13932016480031086197)|
 |[magazinepocket](https://pocket.shonenmagazine.com/)|meta|direct file (re-rendered)|coreview|[📖](https://pocket.shonenmagazine.com/episode/13933686331610373465)|
 |[kuragebunch](https://kuragebunch.com/)|meta|direct file (re-rendered)|coreview|[📖](https://kuragebunch.com/episode/10834108156630826048)|
-|[cmoa](https://www.cmoa.jp/)|paging|direct file (blob, re-rendered)|uses booklive manager, cookie available|[📖](https://www.cmoa.jp/bib/speedreader/speed.html?cid=0000101745_jp_0002&u0=1&u1=0&rurl=https%3A%2F%2Fwww.cmoa.jp%2Ftitle%2F101745%2Fvol%2F2%2F)|
+|[cmoa](https://www.cmoa.jp/)|paging|direct file (blob, re-rendered)|uses booklive manager, BinB, cookie available|[📖](https://www.cmoa.jp/bib/speedreader/speed.html?cid=0000101745_jp_0002&u0=1&u1=0&rurl=https%3A%2F%2Fwww.cmoa.jp%2Ftitle%2F101745%2Fvol%2F2%2F)|
 |[comicaction](https://comic-action.com/)|meta|direct file (re-rendered)|coreview|[📖](https://https://comic-action.com/episode/13933686331636733009)|
 |[piccoma](https://piccoma.com/)|paging|canvas data| |[📖](https://piccoma.com/web/viewer/4267/1471900)|
 |[dmmbooks](https://book.dmm.com/)|paging|canvas data|cookie available|[📖](https://book.dmm.com/library/?age_limit=all&expired=0&item_id=b900pkds04308)|
 |[sukima](https://www.sukima.me/)|paging|canvas data| |[📖](https://www.sukima.me/bv/t/BT0000185480/v/1/s/1/p/0)|
 |[tonarinoyj](https://tonarinoyj.jp/)|meta|direct file (re-rendered)|coreview|[📖](https://tonarinoyj.jp/episode/13933686331663810200)|
+
+BinB ... 講談社コミックプラス, 集英社S-MANGA
 
 ## Requirement
 

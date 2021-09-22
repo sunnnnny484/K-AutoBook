@@ -49,9 +49,9 @@ class Manager(AbstractManager):
             return '現在のページ情報の取得に失敗しました'
 
         self._set_total(total)
-        for _count in range(0, total):
+        for count in range(0, total):
 
-            imgs = self.driver.find_elements_by_css_selector(f"#content-p{_count + 1} div.pt-img img")
+            imgs = self.driver.find_elements_by_css_selector(f"#content-p{count + 1} div.pt-img img")
             images = [self._get_image_by_url(img.get_attribute('src')) for img in imgs]
             # print(f'images: {len(images)}')
             hb = images[-1].size[1]
@@ -62,7 +62,7 @@ class Manager(AbstractManager):
             for image in images:
                 dest.paste(image, (0, hh, w, hh + image.size[1]))
                 hh += self._get_height(image.size[1], hb, image == images[-1])
-            self._save_image(_count, dest)
+            self._save_image(count, dest)
 
             self.pbar.update(1)
 
