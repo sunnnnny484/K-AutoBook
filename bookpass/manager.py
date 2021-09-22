@@ -44,7 +44,7 @@ class Manager(AbstractManager):
         self._skip_first_dialog()
         self._sleep()
 
-        touch = self.driver.find_element_by_css_selector("div.Viewer-fit-fill")[0]
+        touch = self.driver.find_element_by_css_selector("div.Viewer-fit-fill")
         touch.click()  # show slider
         self._sleep()
 
