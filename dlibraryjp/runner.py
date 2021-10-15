@@ -1,0 +1,56 @@
+# --- coding: utf-8 ---
+"""
+d-library.jp の実行クラスモジュール
+"""
+
+import re
+import time
+from config import SubConfigWithCookie
+from runner import AbstractRunner
+from dlibraryjp.manager import Manager
+
+
+class Runner(AbstractRunner):
+    """
+    d-library.jp の実行クラス
+    https://www.d-library.jp/meguro/g0102/libcontentsinfo/?conid=163577&m=%E7%B5%82%E7%82%B9%E3%81%AE%E3%81%82%E3%81%AE%E5%AD%90+%EF%BC%88%E6%96%87%E6%98%A5%E3%82%A6%E3%82%A7%E3%83%96%E6%96%87%E5%BA%AB%EF%BC%89
+    """
+
+    def __init__(self, type_, driver, config):
+        super().__init__(type_, driver, config, SubConfigWithCookie)
+
+    def run(self):
+        """
+        line-manga の実行
+        """
+        if self._set_cookie():
+            self.driver.get(self.sub_config.top_url)
+            time.sleep(1)
+        print('Loading page of inputted url (%s)' % self.url)
+        self.driver.get(self.url)
+
+        if self._move_main_page():
+            print('Open main page')
+        else:
+            print('ページの取得に失敗しました')
+            return
+
+        destination = self.get_output_dir()
+        print(f'Output Path : {destination}')
+
+        manager = Manager(self.driver, self.sub_config, destination)
+        result = manager.start()
+        if result is not True:
+            print(result)
+
+    def _move_main_page(self):
+        """
+        実際の本のページに移動する
+        """
+        button = self.driver.find_element_by_css_selector('div.rental_buttonside > button')
+        script = button.get_attribute('onclick')
+        url = re.sub(r"^.*?'", "", script)
+        url = re.sub(r"'.*$", "", url)
+        # print(f"[{url}]")
+        self.driver.get(url)
+        return True

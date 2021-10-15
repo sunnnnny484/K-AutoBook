@@ -32,6 +32,7 @@ Downloadable sites available,
 |[sukima](https://www.sukima.me/)|paging|canvas data| |[📖](https://www.sukima.me/bv/t/BT0000185480/v/1/s/1/p/0)|
 |[tonarinoyj](https://tonarinoyj.jp/)|meta|direct file (re-rendered)|coreview|[📖](https://tonarinoyj.jp/episode/13933686331663810200)|
 |[amazon](https://amazon.co.jp/)|paging|canvas data|headless doesn't work, uses profile for login|[📖](https://read.amazon.co.jp/manga/B00JR0Q0YO?ref_=dbs_ebk_wr_lft)|
+|[dlibraryjp](https://www.d-library.jp/meguro/)|paging|canvas data|cookie available|[📖](https://www.d-library.jp/meguro/g0102/libcontentsinfo/?conid=163577&m=%E7%B5%82%E7%82%B9%E3%81%AE%E3%81%82%E3%81%AE%E5%AD%90+%EF%BC%88%E6%96%87%E6%98%A5%E3%82%A6%E3%82%A7%E3%83%96%E6%96%87%E5%BA%AB%EF%BC%89)|
 
 BinB ... 講談社コミックプラス, 集英社S-MANGA
 
