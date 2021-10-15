@@ -49,6 +49,10 @@ class Config:
         """
         self.log_directory = '/tmp/k_auto_book/'
         """
+        Profile を出力するディレクトリパス
+        """
+        self.profile_directory = None
+        """
         ログを出力するディレクトリパス
         """
         self.base_directory = 'data/'
@@ -82,6 +86,8 @@ class Config:
             self.headless = bool(self.raw['headless'])
         if 'log_directory' in self.raw:
             self.log_directory = self.raw['log_directory']
+        if 'profile_directory' in self.raw:
+            self.profile_directory = self.raw['profile_directory']
         if 'base_directory' in self.raw:
             self.base_directory = self.raw['base_directory']
         if 'chrome_cookie_db' in self.raw:

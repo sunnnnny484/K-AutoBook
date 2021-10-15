@@ -31,8 +31,32 @@ def _initialize_driver(config):
         chrome_options.add_argument('device-scale-factor=1')
         chrome_options.add_argument('force-device-scale-factor=1')
         chrome_options.add_argument('disable-gpu')
+
         if config.headless:
             chrome_options.add_argument('--headless')
+        if config.profile_directory:
+            print(f"use profile: {config.profile_directory}")
+            chrome_options.add_argument(f'--user-data-dir={config.profile_directory}')
+        if config.user_agent:
+            chrome_options.add_argument(f'user-agent={config.user_agent}')
+        # https://stackoverflow.com/a/59111770
+        chrome_options.add_argument('disable-web-security')
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        chrome_options.add_experimental_option('useAutomationExtension', False)
+
+        driver = webdriver.Chrome(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
+    elif config.driver == 'amazon':
+        chrome_options = ChromeOptions()
+        if config.chrome_binary:
+            print(config.chrome_binary)
+            chrome_options.binary_location = config.chrome_binary
+        chrome_options.add_argument('high-dpi-support=1')
+        chrome_options.add_argument('disable-gpu')
+
+        chrome_options.add_argument(f'--user-data-dir={config.profile_directory}')
+        chrome_options.add_argument('window-size=403x800')
+
+        # TODO headless doesn't work at amazon
         if config.user_agent:
             chrome_options.add_argument(f'user-agent={config.user_agent}')
         # https://stackoverflow.com/a/59111770
