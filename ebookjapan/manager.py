@@ -165,14 +165,14 @@ class Manager(AbstractManager):
     @retry(tries=10, delay=1)
     def _capture(self, ignore_blank=False):
         """
-        @param ignore_blank キャプチャミスを無視するかどうか
+        @param ignore_blank ignore mistaken capture or not
         """
         base64_image = self.driver.get_screenshot_as_base64()
         image = Image.open(io.BytesIO(base64.b64decode(base64_image)))
         if self._is_config_jpeg():
             image = image.convert('RGB')
 
-        if self._is_blank_image(image):
+        if self._is_blank_image(image, 255) or self._is_blank_image(image, 245):
             print(f' blank page detected {self.retry_count}')
             if not ignore_blank:
                 if self.retry_count < self.config.blank_check_giveup:
@@ -184,13 +184,13 @@ class Manager(AbstractManager):
         return image
 
     @staticmethod
-    def _is_blank_image(image):
+    def _is_blank_image(image, color):
         width, height = image.size
         for y in range(height):
             for x in range(width):
                 r, g, b = image.getpixel((x, y))
-                if r != 255 or g != 255 or b != 255:
-                    return False
+                if r != color or g != color or b != color:
+                        return False
         return True
 
     def _next(self):
