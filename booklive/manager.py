@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-booklive の操作を行うためのクラスモジュール
+booklive module
 """
 
 import re
@@ -12,13 +12,12 @@ from PIL import Image
 
 class Manager(AbstractManager):
     """
-    booklive の操作を行うためのクラス
+    booklive scraper
     """
 
     def __init__(self, driver, config=None, directory='./', prefix=''):
         """
-        booklive の操作を行うためのコンストラクタ
-        @param driver selenium のブラウザインスタンス
+        @param driver selenium driver
         """
         super().__init__(driver, config, directory, prefix)
 

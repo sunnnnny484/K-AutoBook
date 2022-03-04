@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-設定クラスモジュール
+module for configurations
 """
 
 import json
@@ -16,7 +16,7 @@ from os import path
 
 class Config:
     """
-    設定情報を管理するためのクラス
+    represents config.json common part.
     """
     _file_name = 'config.json'
 
@@ -26,7 +26,7 @@ class Config:
         """
         self.driver = 'phantomjs'
         """
-        開くブラウザのドライバ
+        name of driver profile (configuration set)
         """
         self.chrome_path = None
         """
@@ -148,19 +148,19 @@ class AbstractConfig(ABC):
 
     def __init__(self):
         """
-        設定情報を管理するためのコンストラクタ
+        represents config.json each site part.
         """
         self.needs_login = False
         """
-        ログインする必要があるかどうか
+        need to login ot not
         """
         self.image_format = ImageFormat.JPEG
         """
-        書き出す画像フォーマット
+        image format
         """
         self.sleep_time = 0.5
         """
-        ページスクロールのスリープ時間
+        duration for scrolling
         """
 
     def update(self, data):

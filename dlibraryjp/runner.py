@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-d-library.jp の実行クラスモジュール
+d-library.jp module
 """
 
 import re
@@ -12,7 +12,7 @@ from dlibraryjp.manager import Manager
 
 class Runner(AbstractRunner):
     """
-    d-library.jp の実行クラス
+    d-library.jp scraper
     https://www.d-library.jp/meguro/g0102/libcontentsinfo/?conid=163577&m=%E7%B5%82%E7%82%B9%E3%81%AE%E3%81%82%E3%81%AE%E5%AD%90+%EF%BC%88%E6%96%87%E6%98%A5%E3%82%A6%E3%82%A7%E3%83%96%E6%96%87%E5%BA%AB%EF%BC%89
     """
 
@@ -21,9 +21,10 @@ class Runner(AbstractRunner):
 
     def run(self):
         """
-        line-manga の実行
+        run d-library.jp
         """
         if self._set_cookie():
+            print("cookie has set")
             self.driver.get(self.sub_config.top_url)
             time.sleep(1)
         print('Loading page of inputted url (%s)' % self.url)
@@ -51,7 +52,7 @@ class Runner(AbstractRunner):
         print(self.driver.current_url)
         try:
             print("search read button")
-        button = self.driver.find_element_by_css_selector('div.rental_buttonside > button')
+            button = self.driver.find_element_by_css_selector('div.rental_buttonside > button')
             time.sleep(2)
         except:
             print("search login button")

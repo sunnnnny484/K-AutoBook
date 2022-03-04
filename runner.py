@@ -41,7 +41,7 @@ class AbstractRunner(ABC):
 
     def __init__(self, type_, driver, config, sub_config_class=None):
         """
-        @param driver selenium のブラウザ情報
+        @param driver selenium driver
         @param config global configuration
         """
         self.type_ = type_
