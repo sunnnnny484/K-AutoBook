@@ -46,9 +46,31 @@ class Runner(AbstractRunner):
     def _move_main_page(self):
         """
         実際の本のページに移動する
+        TODO works on headless mode only why???
         """
+        print(self.driver.current_url)
+        try:
+            print("search read button")
         button = self.driver.find_element_by_css_selector('div.rental_buttonside > button')
+            time.sleep(2)
+        except:
+            print("search login button")
+            button = self.driver.find_element_by_css_selector('#loginForm > button')
+            button.click()
+            time.sleep(2)
+
+            self.driver.get(self.url)
+            print(self.driver.current_url)
+            return self._move_main_page()
+
         script = button.get_attribute('onclick')
+        if script is None:
+            button = self.driver.find_element_by_css_selector('#loginInput button')
+            button.click()
+            time.sleep(2)
+
+            return self._move_main_page()
+
         url = re.sub(r"^.*?'", "", script)
         url = re.sub(r"'.*$", "", url)
         # print(f"[{url}]")
