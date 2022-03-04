@@ -24,7 +24,7 @@ class Config:
         """
         設定情報を管理するためのコンストラクタ
         """
-        self.driver = 'phantomjs'
+        self.driver = 'chrome'
         """
         name of driver profile (configuration set)
         """
@@ -144,12 +144,17 @@ class BoundOnSide(IntEnum):
     """
 
 
-class AbstractConfig(ABC):
+class AbstractSubConfig(ABC):
 
     def __init__(self):
         """
         represents config.json each site part.
         """
+        self.driver = None
+        """
+        name of driver profile (configuration set) overrides it in config
+        """
+
         self.needs_login = False
         """
         need to login ot not
@@ -168,6 +173,8 @@ class AbstractConfig(ABC):
         設定情報を更新する
         @param data 更新するデータ
         """
+        if 'driver' in data:
+            self.driver = data['driver']
         if 'needs_login' in data:
             self.needs_login = data['needs_login']
         if 'image_format' in data:
@@ -212,7 +219,7 @@ class AbstractConfig(ABC):
                 self.bound_on_side = BoundOnSide.LEFT
 
 
-class BasicSubConfig(AbstractConfig):
+class BasicSubConfig(AbstractSubConfig):
     """
     設定情報を管理するためのクラス
     """

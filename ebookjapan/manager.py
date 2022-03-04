@@ -123,7 +123,7 @@ class Manager(AbstractManager):
         return True
 
     def _get_blank_check_exclude_pages(self, _total):
-        return [(_total - 1 + p) if p <= 0 else p for p in self.config.blank_check_excludes]
+        return [(_total - 1 + p) if p <= 0 else p for p in self.sub_config.blank_check_excludes]
 
     def _get_total_page(self):
         """
@@ -175,7 +175,7 @@ class Manager(AbstractManager):
         if self._is_blank_image(image, 255) or self._is_blank_image(image, 245):
             print(f' blank page detected {self.retry_count}')
             if not ignore_blank:
-                if self.retry_count < self.config.blank_check_giveup:
+                if self.retry_count < self.sub_config.blank_check_giveup:
                     self.retry_count += 1
                     raise Exception
                 else:

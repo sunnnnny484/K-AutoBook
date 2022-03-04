@@ -20,9 +20,10 @@ def _make_directory(directory):
             raise exception
 
 
-def _initialize_driver(config):
+def _initialize_driver(config, profile="chrome"):
+    # TODO out source (best: configuration, better: class)
     log_name = path.join(config.log_directory, 'driver.log')
-    if config.driver == 'chrome':
+    if profile == 'chrome':
         chrome_options = ChromeOptions()
         if config.chrome_binary:
             print(config.chrome_binary)
@@ -34,6 +35,7 @@ def _initialize_driver(config):
 
         if config.headless:
             chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--window-size=960,1222')
         if config.profile_directory:
             print(f"use profile: {config.profile_directory}")
             chrome_options.add_argument(f'--user-data-dir={config.profile_directory}')
@@ -45,16 +47,18 @@ def _initialize_driver(config):
         chrome_options.add_experimental_option('useAutomationExtension', False)
 
         driver = webdriver.Chrome(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
-    elif config.driver == 'amazon':
+    elif profile == 'chrome_headless':
         chrome_options = ChromeOptions()
         if config.chrome_binary:
             print(config.chrome_binary)
             chrome_options.binary_location = config.chrome_binary
         chrome_options.add_argument('high-dpi-support=1')
+        chrome_options.add_argument('device-scale-factor=1')
+        chrome_options.add_argument('force-device-scale-factor=1')
         chrome_options.add_argument('disable-gpu')
 
         chrome_options.add_argument(f'--user-data-dir={config.profile_directory}')
-        chrome_options.add_argument('window-size=403x800')
+        chrome_options.add_argument('--window-size=960,1222')
 
         # TODO headless doesn't work at amazon
         if config.user_agent:
@@ -65,7 +69,7 @@ def _initialize_driver(config):
         chrome_options.add_experimental_option('useAutomationExtension', False)
 
         driver = webdriver.Chrome(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
-    elif config.driver == 'existing':
+    elif profile == 'chrome_existing':
         chrome_options = ChromeOptions()
         if config.chrome_binary:
             print(config.chrome_binary)
@@ -76,6 +80,7 @@ def _initialize_driver(config):
         chrome_options.add_argument('disable-gpu')
         if config.headless:
             chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--window-size=960,1222')
         if config.user_agent:
             chrome_options.add_argument(f'user-agent={config.user_agent}')
         # https://stackoverflow.com/a/59111770
@@ -88,12 +93,10 @@ def _initialize_driver(config):
     return driver
 
 
-def _reset_driver(driver, config):
-    if config.driver == 'chrome':
-        print('close chrome driver')
-        driver.close()
+def _reset_driver(driver, plugin):
+    driver.close()
     print('recreate driver')
-    return _initialize_driver(config)
+    return _initialize_driver(plugin.config, plugin.sub_config.driver)
 
 
 def _main():
@@ -107,6 +110,8 @@ def _main():
     _make_directory(config.log_directory)
     _make_directory(config.base_directory)
     driver = _initialize_driver(config)
+    profile = config.driver
+    print(f'drive: {profile}')
 
     stripper = re.compile(r'^\s+')
 
@@ -156,8 +161,10 @@ def _main():
             for plugin in plugins:
                 # print(plugin)
                 if plugin.check(url):
-                    if done:
-                        driver = _reset_driver(driver, config)
+                    if done or plugin.sub_config.driver != profile:
+                        driver = _reset_driver(driver, plugin)
+                        profile = plugin.sub_config.driver
+                        print(f'drive: {profile}')
                         plugin.reset(driver)
                     plugin.init(url, options)
                     plugin.run()

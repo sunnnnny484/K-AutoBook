@@ -8,7 +8,7 @@ import os
 import re
 import importlib
 from abc import ABC, abstractmethod
-from config import Config, BasicSubConfig, ChromeCookie, SubConfigWithCookie
+from config import Config, AbstractSubConfig, BasicSubConfig, ChromeCookie, SubConfigWithCookie
 from manager import CoreViewManager
 from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -47,6 +47,9 @@ class AbstractRunner(ABC):
         self.type_ = type_
         self.driver: WebDriver = driver
         self.config: Config = config
+        if not sub_config_class and (sub_config_class == AbstractSubConfig or
+                                     issubclass(type(sub_config_class), (AbstractSubConfig,))):
+            raise ValueError(f'sub_config_class should be subclass of AbstractSubConfig: {type(sub_config_class)}')
         self.sub_config = sub_config_class() if sub_config_class else None
         self.url = None
         self.options = None

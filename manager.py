@@ -19,7 +19,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from tqdm import tqdm
-from config import AbstractConfig, ImageFormat
+from config import AbstractSubConfig, ImageFormat
 
 
 class AbstractManager(ABC):
@@ -32,7 +32,7 @@ class AbstractManager(ABC):
     max waiting time for first loading.
     """
 
-    def __init__(self, driver=None, config=None, directory='./', prefix=''):
+    def __init__(self, driver=None, sub_config=None, directory='./', prefix=''):
         """
         @param driver the selenium instance
         """
@@ -40,7 +40,9 @@ class AbstractManager(ABC):
         """
         the selenium instance.
         """
-        self.config = config if isinstance(config, AbstractConfig) else None
+        if not isinstance(sub_config, AbstractSubConfig):
+            raise ValueError('config is not sub config class')
+        self.sub_config = sub_config
         """
         common configuration.
         """
@@ -62,7 +64,7 @@ class AbstractManager(ABC):
 
         self._extension = self._get_extension()
         self._format = self._get_save_format()
-        self._sleep_time = self.config.sleep_time if self.config is not None else 0.5
+        self._sleep_time = self.sub_config.sleep_time if self.sub_config is not None else 0.5
 
     def _set_directory(self, directory):
         """
@@ -129,7 +131,7 @@ class AbstractManager(ABC):
         image.save(name, self._format.upper())
 
     def _is_config_jpeg(self):
-        return self.config is not None and self.config.image_format == ImageFormat.JPEG
+        return self.sub_config is not None and self.sub_config.image_format == ImageFormat.JPEG
 
     def set_attribute(self, element, name, value):
         self.driver.execute_script("arguments[0].setAttribute(arguments[1], arguments[2]);",
@@ -168,10 +170,10 @@ class AbstractManager(ABC):
         書き出すファイルの拡張子を取得する
         @return 拡張子
         """
-        if self.config is not None:
-            if self.config.image_format == ImageFormat.JPEG:
+        if self.sub_config is not None:
+            if self.sub_config.image_format == ImageFormat.JPEG:
                 return '.jpg'
-            elif self.config.image_format == ImageFormat.PNG:
+            elif self.sub_config.image_format == ImageFormat.PNG:
                 return '.png'
         return '.jpg'
 
@@ -180,10 +182,10 @@ class AbstractManager(ABC):
         書き出すファイルフォーマットを取得する
         @return ファイルフォーマット
         """
-        if self.config is not None:
-            if self.config.image_format == ImageFormat.JPEG:
+        if self.sub_config is not None:
+            if self.sub_config.image_format == ImageFormat.JPEG:
                 return 'jpeg'
-            elif self.config.image_format == ImageFormat.PNG:
+            elif self.sub_config.image_format == ImageFormat.PNG:
                 return 'png'
         return 'jpeg'
 
