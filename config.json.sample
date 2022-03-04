@@ -1,9 +1,10 @@
 {
     "driver": "chrome",
     "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36",
-    "headless":true,
+    "headless": true,
+    "profile_directory": "profile",
     "log_directory": "logs",
-    "base_directory": "data",
+    "base_directory": "/Users/you/Downloads",
     "chrome_cookie_db": "/Users/you/Library/Application Support/Google/Chrome/Default/Cookies",
     "alphapolis": {
         "domain": "www\\.alphapolis\\.co\\.jp",
@@ -15,83 +16,129 @@
     },
     "booklive": {
         "domain": "booklive\\.jp",
-        "patterns": ["bviewer\\/s\\/\\?cid=(\\d{6,8}_\\d{3})"]
+        "patterns": [
+            "bviewer\\/s\\/\\?cid=(\\d{6,8}_\\d{3})"
+        ]
     },
     "bookpass": {
         "domain": "bookpass\\.auone\\.jp",
-        "patterns": ["pack\\/detail\\/\\?iid=([A-Z]{2}\\d+)"]
+        "patterns": [
+            "pack\\/detail\\/\\?iid=([A-Z]{2}\\d+)"
+        ]
     },
     "bookwalker": {
         "domain": "viewer\\.bookwalker\\.jp",
-        "patterns": ["browserWebApi\\/\\d+\\/view\\?cid=([0-9a-f-]+)"]
+        "patterns": [
+            "browserWebApi\\/\\d+\\/view\\?cid=([0-9a-f-]+)"
+        ]
     },
     "cmoa": {
         "domain": "www\\.cmoa\\.jp",
-        "patterns": ["bib\\/speedreader\\/speed.html\\?cid=(\\d{10}_[a-z]{2}_\\d{4})"],
+        "patterns": [
+            "bib\\/speedreader\\/speed.html\\?cid=(\\d{10}_[a-z]{2}_\\d{4})"
+        ],
         "host_key": ".cmoa.jp",
         "top_url": "https://www.cmoa.jp"
     },
     "comicaction": {
         "domain": "comic-action\\.com",
-        "patterns": ["volume\\/(\\d+)", "episode\\/(\\d+)"]
+        "patterns": [
+            "volume\\/(\\d+)",
+            "episode\\/(\\d+)"
+        ]
     },
     "comicdays": {
         "domain": "comic-days\\.com",
-        "patterns": ["volume\\/(\\d+)", "episode\\/(\\d+)"]
+        "patterns": [
+            "volume\\/(\\d+)",
+            "episode\\/(\\d+)"
+        ]
     },
     "comicwalker": {
         "domain": "comic-walker\\.com",
-        "patterns": ["viewer\\/.*&cid=(KDCW_[A-Z]{2}[0-9]{14}_[0-9]{2})"]
+        "patterns": [
+            "viewer\\/.*&cid=(KDCW_[A-Z]{2}[0-9]{14}_[0-9]{2})"
+        ]
     },
     "ebookjapan": {
         "domain": "ebookjapan\\.yahoo\\.co\\.jp",
-        "patterns": ["books\\/(\\d+)\\/([A-Z]{1}\\d+)"],
-        "needs_login": false,
-        "username": "your_id",
-        "password": "your_password",
+        "patterns": [
+            "books\\/(\\d+)\\/([A-Z]{1}\\d+)"
+        ],
         "blank_check_excludes": "(1, -1, 0)",
-        "blank_check_giveup": 5
+        "blank_check_giveup": 5,
+        "needs_login": false,
+        "username": "your_yahoo_id",
+        "password": "your_yahoo_password"
     },
     "ganganonline": {
         "domain": "www\\.ganganonline\\.com",
-        "patterns": ["title\\/(\\d+)\\/chapter\\/(\\d+)"]
+        "patterns": [
+            "title\\/(\\d+)\\/chapter\\/(\\d+)"
+        ]
     },
     "jumpplus": {
         "domain": "shonenjumpplus\\.com",
-        "patterns": ["volume\\/(\\d+)", "episode\\/(\\d+)"]
+        "patterns": [
+            "volume\\/(\\d+)",
+            "episode\\/(\\d+)"
+        ]
+    },
+    "tonarinoyj": {
+        "domain": "tonarinoyj\\.jp",
+        "patterns": [
+            "volume\\/(\\d+)",
+            "episode\\/(\\d+)"
+        ]
     },
     "kuragebunch": {
         "domain": "kuragebunch\\.com",
-        "patterns": ["volume\\/(\\d+)", "episode\\/(\\d+)"]
+        "patterns": [
+            "volume\\/(\\d+)",
+            "episode\\/(\\d+)"
+        ]
     },
     "linemanga": {
         "domain": "manga\\.line\\.me",
-        "patterns": ["book\\/viewer\\?id=([0-9a-zA-Z-]+)"],
+        "patterns": [
+            "book\\/viewer\\?id=([0-9a-zA-Z-]+)"
+        ],
         "host_key": ".line.me",
         "top_url": "https://manga.line.me"
     },
     "magazinepocket": {
         "domain": "pocket\\.shonenmagazine\\.com",
-        "patterns": ["volume\\/(\\d+)", "episode\\/(\\d+)"]
+        "patterns": [
+            "volume\\/(\\d+)",
+            "episode\\/(\\d+)"
+        ]
     },
     "mangacross": {
         "domain": "mangacross\\.jp",
-        "patterns": ["comics\\/(\\w+)\\/([0-9]+)"]
+        "patterns": [
+            "comics\\/(\\w+)\\/([0-9]+)"
+        ]
     },
     "webace": {
         "domain": "web-ace\\.jp",
-        "patterns": ["youngaceup\\/contents\\/(\\d+)\\/episode\\/(\\d+)"]
+        "patterns": [
+            "youngaceup\\/contents\\/(\\d+)\\/episode\\/(\\d+)"
+        ]
     },
     "zebrackcomic": {
         "domain": "zebrack-comic(\\.shueisha\\.co\\.jp|\\.com)",
-        "patterns": ["title\\/(\\d+)\\/volume\\/(\\d+)\\/*$"],
+        "patterns": [
+            "title\\/(\\d+)\\/volume\\/(\\d+)\\/*$"
+        ],
         "needs_login": false,
         "image_format": "JPEG",
         "sleep_time": 0.6
     },
     "piccoma": {
         "domain": "piccoma\\.com",
-        "patterns": ["web\\/viewer\\/(\\d+)\\/(\\d+)"]
+        "patterns": [
+            "web\\/viewer\\/(\\d+)\\/(\\d+)"
+        ]
     },
     "dmmbooks": {
         "domain": "book\\.dmm\\.com",
@@ -108,11 +155,22 @@
             "bv\\/t\\/(\\w+)\\/v\\/(\\d+)\\/s\\/(\\d+)\\/p\\/\\d+"
         ]
     },
-    "tonarinoyj": {
-        "domain": "tonarinoyj\\.jp",
+    "dlibraryjp": {
+        "driver": "chrome_headless",
+        "domain": "www\\.d-library\\.jp",
         "patterns": [
-            "volume\\/(\\d+)",
-            "episode\\/(\\d+)"
-        ]
+            "meguro\\/\\w+\\/libcontentsinfo\\/\\?conid=(\\d+)"
+        ],
+        "$host_key": ".d-library.jp",
+        "top_url": "https://www.d-library.jp/meguro"
+    },
+    "amazon": {
+        "driver": "chrome_headless",
+        "domain": "read\\.amazon\\.co\\.jp",
+        "patterns": [
+            "manga\\/(\\w+)\\??"
+        ],
+        "host_key": ".amazon.co.jp",
+        "top_url": "https://www.amazon.co.jp"
     }
 }
