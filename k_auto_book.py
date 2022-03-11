@@ -34,6 +34,7 @@ def _initialize_driver(config, profile="chrome"):
         chrome_options.add_argument('disable-gpu')
 
         if config.headless:
+            print(f"headless: {config.headless}")
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--window-size=960,1222')
         if config.profile_directory:
@@ -111,7 +112,7 @@ def _main():
     _make_directory(config.base_directory)
     driver = _initialize_driver(config)
     profile = config.driver
-    print(f'drive: {profile}')
+    print(f'driver: {profile}')
 
     stripper = re.compile(r'^\s+')
 
@@ -161,10 +162,10 @@ def _main():
             for plugin in plugins:
                 # print(plugin)
                 if plugin.check(url):
-                    if done or plugin.sub_config.driver != profile:
+                    if done or (plugin.sub_config.driver and plugin.sub_config.driver != profile):
                         driver = _reset_driver(driver, plugin)
                         profile = plugin.sub_config.driver
-                        print(f'drive: {profile}')
+                        print(f'driver: {profile}')
                         plugin.reset(driver)
                     plugin.init(url, options)
                     plugin.run()
