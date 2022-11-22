@@ -58,8 +58,9 @@ def _initialize_driver(config, profile="chrome"):
         chrome_options.add_argument('force-device-scale-factor=1')
         chrome_options.add_argument('disable-gpu')
 
+        chrome_options.add_argument('--app=https://www.google.com')
         chrome_options.add_argument(f'--user-data-dir={config.profile_directory}')
-        chrome_options.add_argument('--window-size=960,1222')
+        chrome_options.add_argument('--window-size=847,1228')
 
         # TODO headless doesn't work at amazon
         if config.user_agent:

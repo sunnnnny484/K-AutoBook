@@ -2,7 +2,7 @@
 
 ## Overview
 
-Web comics downloader. Target is _commercial_ web comics site, especially for _free_ comics.
+📚 Web comics downloader. Target is _commercial_ web comics site, especially for _free_ comics.
 Policy is _images as original as possible_.
 
 ## Description
