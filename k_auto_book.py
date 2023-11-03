@@ -36,6 +36,7 @@ def _initialize_driver(config, profile="chrome"):
 
         if config.headless:
             print(f"headless: {config.headless}")
+            chrome_options.headless = True
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--window-size=960,1222')
         if config.profile_directory:
