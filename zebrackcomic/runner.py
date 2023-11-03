@@ -4,6 +4,9 @@ zebrackcomic の実行クラスモジュール
 """
 
 import time
+
+from selenium.webdriver.common.by import By
+
 from config import BasicSubConfig
 from runner import AbstractRunner
 from zebrackcomic.manager import Manager
@@ -52,7 +55,7 @@ class Runner(AbstractRunner):
         except Exception:
             pass
 
-        elements = self.driver.find_elements_by_css_selector('button.undefined')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, 'button.undefined')
         if len(elements) != 0:
             elements[0].click()
             time.sleep(.5)
@@ -60,7 +63,7 @@ class Runner(AbstractRunner):
             # skip dialog 2
             time.sleep(.5)
             try:
-                elements = self.driver.find_element_by_xpath("//*[text()='無料で読む']")
+                elements = self.driver.find_element(By.XPATH, "//*[text()='無料で読む']")
                 elements.click()
                 return True
             except Exception:
@@ -72,7 +75,7 @@ class Runner(AbstractRunner):
                     pass
 
                 # 試し読み
-                elements = self.driver.find_elements_by_css_selector('button[class*="MainContents_trialButton"]')
+                elements = self.driver.find_elements(By.CSS_SELECTOR, 'button[class*="MainContents_trialButton"]')
                 if len(elements) != 0:
                     elements[0].click()
                     return True

@@ -5,6 +5,8 @@ booklive module
 
 import re
 import time
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from manager import AbstractManager
 from PIL import Image
@@ -50,7 +52,7 @@ class Manager(AbstractManager):
         self._set_total(total)
         for count in range(0, total):
 
-            imgs = self.driver.find_elements_by_css_selector(f"#content-p{count + 1} div.pt-img img")
+            imgs = self.driver.find_elements(By.CSS_SELECTOR, f"#content-p{count + 1} div.pt-img img")
             images = [self._get_image_by_url(img.get_attribute('src')) for img in imgs]
             # print(f'images: {len(images)}')
             hb = images[-1].size[1]
@@ -101,7 +103,7 @@ class Manager(AbstractManager):
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
         for _ in range(Manager.MAX_LOADING_TIME):
-            elements = self.driver.find_elements_by_css_selector('#menu_slidercaption')
+            elements = self.driver.find_elements(By.CSS_SELECTOR, '#menu_slidercaption')
             if len(elements) != 0:
                 print(elements[0].get_attribute('innerHTML'))
                 if re.match('^\\d+/\\d+$', elements[0].get_attribute('innerHTML')):
@@ -114,7 +116,7 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        elements = self.driver.find_elements_by_css_selector('#menu_slidercaption')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, '#menu_slidercaption')
         if len(elements) != 0:
             return elements[0]
         print("no current")
@@ -127,7 +129,7 @@ class Manager(AbstractManager):
         """
         try:
             return int(self.current_page_element.get_attribute('innerHTML').split('/')[0])
-        except:
+        except Exception:
             return 0
 
     def _next(self):

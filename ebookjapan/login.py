@@ -8,6 +8,8 @@ from urllib import request
 from PIL import Image
 import io
 import time
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
 
@@ -62,7 +64,7 @@ class YahooLogin(object):
         print('Loading Yahoo JAPAN! top page')
         self.driver.get(self.YAHOO_JAPAN_URL)
         print('Loading login page')
-        url = self.driver.find_elements_by_css_selector('#Login [data-rapid_p]')[0].get_attribute('href')
+        url = self.driver.find_elements(By.CSS_SELECTOR, '#Login [data-rapid_p]')[0].get_attribute('href')
         self.driver.get(url)
         for try_count in range(4):
             yahoo_id = input('Input Yahoo ID > ') if (
@@ -70,16 +72,16 @@ class YahooLogin(object):
             password = getpass('Input Password > ') if (
                 self.password is None) else self.password
             print('Trying login: ' + yahoo_id)
-            self.driver.find_element_by_id('username').send_keys(yahoo_id)
+            self.driver.find_element(By.ID, 'username').send_keys(yahoo_id)
             print('Confirm Yahoo JAPAN! ID')
-            self.driver.find_element_by_id('btnNext').click()
+            self.driver.find_element(By.ID, 'btnNext').click()
             time.sleep(1)
             self.driver.execute_script(
                 'element = document.getElementById("passwd");' +
                 'element.disabled = false;' +
                 'element.readOnly = false;')
-            self.driver.find_element_by_id('passwd').send_keys(password)
-            self.driver.find_element_by_id('btnSubmit').click()
+            self.driver.find_element(By.ID, 'passwd').send_keys(password)
+            self.driver.find_element(By.ID, 'btnSubmit').click()
             print('Trying login')
             if self._is_login_error():
                 print('ログインに失敗しました')
@@ -91,8 +93,8 @@ class YahooLogin(object):
                     if not self._show_image_captcha():
                         return False
                     _result = input('Input Captcha > ')
-                    self.driver.find_element_by_id('captchaAnswer').send_keys(_result)
-                    self.driver.find_elements_by_css_selector('input[type=image]')[0].click()
+                    self.driver.find_element(By.ID, 'captchaAnswer').send_keys(_result)
+                    self.driver.find_elements(By.CSS_SELECTOR, 'input[type=image]')[0].click()
                 elif self._is_login_page():
                     break
                 else:
@@ -109,8 +111,8 @@ class YahooLogin(object):
                             print('Invalid one time password')
                         one_time_password = input(
                             'Input one time password > ')
-                        self.driver.find_element_by_id('verify_code').send_keys(one_time_password)
-                        self.driver.find_elements_by_css_selector('[type=submit]')[0].click()
+                        self.driver.find_element(By.ID, 'verify_code').send_keys(one_time_password)
+                        self.driver.find_elements(By.CSS_SELECTOR, '[type=submit]')[0].click()
                     else:
                         is_succeeded_login = True
                         break
@@ -129,7 +131,7 @@ class YahooLogin(object):
         ログインエラーかどうかを判定する
         @return ログインエラーの場合に True を返す
         """
-        elements = self.driver.find_elements_by_css_selector('div.yregertxt > h2.yjM')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, 'div.yregertxt > h2.yjM')
         return self._is_login_page() and len(elements) != 0
 
     def _is_image_captcha(self):
@@ -141,7 +143,7 @@ class YahooLogin(object):
         result = result and self.driver.title == '文字認証を行います。 - Yahoo! JAPAN'
         if result:
             names = []
-            for input_ in self.driver.find_element_by_tag_name('input'):
+            for input_ in self.driver.find_elements(By.TAG_NAME, 'input'):
                 names.append(input_['name'])
             checks = [
                 'captchaCdata',
@@ -161,7 +163,7 @@ class YahooLogin(object):
         画像キャプチャを表示する
         @return 画像の表示に成功した場合に True を返す
         """
-        file = io.BytesIO(request.urlopen(self.driver.find_element_by_id(
+        file = io.BytesIO(request.urlopen(self.driver.find_element(By.ID, 
             'captchaV5MultiByteCaptchaImg')['src']).read())
         base_image = Image.open(file)
         base_image = base_image.convert('RGBA')

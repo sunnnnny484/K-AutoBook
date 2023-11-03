@@ -124,7 +124,7 @@ class AbstractRunner(ABC):
                     modname = root[2:].replace('/', '.') + '.' + os.path.splitext(c)[0]
                     try:
                         module = importlib.import_module(modname)
-                    except (ImportError, NotImplementedError) as e:
+                    except (ImportError, NotImplementedError):
                         continue
                     for cls in dir(module):
                         attr = getattr(module, cls)

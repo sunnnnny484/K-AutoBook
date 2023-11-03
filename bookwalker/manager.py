@@ -7,6 +7,8 @@ book-walker の操作を行うためのクラスモジュール
 
 import time
 import re
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from manager import AbstractManager
@@ -45,7 +47,7 @@ class Manager(AbstractManager):
         self._sleep(2)
 
         # get original size
-        canvas = self.driver.find_element_by_css_selector("canvas.dummy")
+        canvas = self.driver.find_element(By.CSS_SELECTOR, "canvas.dummy")
         self.driver.set_window_size(int(canvas.get_attribute('width')),
                                     int(canvas.get_attribute('height')))
         print(f'size: {canvas.get_attribute("width")}x{canvas.get_attribute("height")}')
@@ -55,7 +57,7 @@ class Manager(AbstractManager):
         self._set_total(total)
         for count in range(0, total):
 
-            canvas = self.driver.find_element_by_css_selector(".currentScreen canvas")
+            canvas = self.driver.find_element(By.CSS_SELECTOR, ".currentScreen canvas")
             self._save_image_of_web_element(count, canvas)
             self.pbar.update(1)
 
@@ -71,7 +73,7 @@ class Manager(AbstractManager):
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
         for _ in range(Manager.MAX_LOADING_TIME):
-            elements = self.driver.find_elements_by_id('pageSliderCounter')
+            elements = self.driver.find_elements(By.ID, 'pageSliderCounter')
             if len(elements) != 0:
                 # print(elements[0].get_attribute('innerHTML'))
                 if re.match('^\\d+/\\d+$', elements[0].get_attribute('innerHTML').strip()):
@@ -88,7 +90,7 @@ class Manager(AbstractManager):
 
     def _wait_loading(self):
         WebDriverWait(self.driver, 30).until_not(lambda x: self._check_is_loading(
-            x.find_elements_by_css_selector(".loading")))
+            x.find_elements(By.CSS_SELECTOR, ".loading")))
 
     @staticmethod
     def _check_is_loading(list_ele):

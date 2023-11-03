@@ -4,6 +4,8 @@ piccoma の操作を行うためのクラスモジュール
 """
 
 import time
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from manager import AbstractManager
 
@@ -36,12 +38,12 @@ class Manager(AbstractManager):
         """
         self._wait()
 
-        canvas = self.driver.find_elements_by_css_selector("div.PCM-viewer2_frame canvas")[0]
+        canvas = self.driver.find_elements(By.CSS_SELECTOR, "div.PCM-viewer2_frame canvas")[0]
         self.driver.set_window_size(int(canvas.get_attribute('width')),
                                     int(canvas.get_attribute('height')))
         print(f'size: {canvas.get_attribute("width")}x{canvas.get_attribute("height")}')
 
-        touch = self.driver.find_elements_by_css_selector("div#react_ViewerApp")[0]
+        touch = self.driver.find_elements(By.CSS_SELECTOR, "div#react_ViewerApp")[0]
         touch.click()  # show slider
         self._sleep()
 
@@ -53,14 +55,14 @@ class Manager(AbstractManager):
         if self.current_page_element is None:
             return '現在のページ情報の取得に失敗しました'
 
-        touch = self.driver.find_elements_by_css_selector("body")[0]
+        touch = self.driver.find_elements(By.CSS_SELECTOR, "body")[0]
         touch.click()  # hide slider
         self._sleep()
 
         self._set_total(total)
         for count in range(0, total):
 
-            canvas = self.driver.find_elements_by_css_selector(f"div#p{count + 1} > div > canvas")[0]
+            canvas = self.driver.find_elements(By.CSS_SELECTOR, f"div#p{count + 1} > div > canvas")[0]
             self._save_image_of_web_element(count, canvas)
 
             self.pbar.update(1)
@@ -76,7 +78,7 @@ class Manager(AbstractManager):
         最初にフッタの出し入れをする
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
-        elements = self.driver.find_elements_by_css_selector('div.PCM-viewer2_pagination_num > span:nth-child(2)')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, 'div.PCM-viewer2_pagination_num > span:nth-child(2)')
         if len(elements) == 0:
             # print("no total")
             return None
@@ -92,7 +94,7 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        elements = self.driver.find_elements_by_css_selector('#js_cpNum')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, '#js_cpNum')
         if len(elements) != 0:
             return elements[0]
         print("no current")

@@ -4,6 +4,9 @@ ebookjapan の実行クラスモジュール
 """
 
 import time
+
+from selenium.webdriver.common.by import By
+
 from runner import AbstractRunner
 from ebookjapan.login import YahooLogin
 from ebookjapan.manager import Manager
@@ -67,7 +70,7 @@ class Runner(AbstractRunner):
         if Runner.is_login:
             return True
         self.driver.get(self.url)
-        if len(self.driver.find_elements_by_css_selector('.login')) == 0:
+        if len(self.driver.find_elements(By.CSS_SELECTOR, '.login')) == 0:
             Runner.is_login = True
             return True
         return False
@@ -93,7 +96,7 @@ class Runner(AbstractRunner):
         """
         実際の本のページに移動する
         """
-        elements = self.driver.find_elements_by_css_selector('.btn.btn--primary.btn--read')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, '.btn.btn--primary.btn--read')
         if len(elements) != 0 and '読む' in elements[0].text:
             elements[0].click()
             return True
@@ -103,7 +106,7 @@ class Runner(AbstractRunner):
         """
         実際の本の試し読みページに移動する
         """
-        elements = self.driver.find_elements_by_css_selector('.book-main__purchase > a.btn')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, '.book-main__purchase > a.btn')
         if len(elements) != 0 and '試し読み' in elements[0].text:
             elements[0].click()
             return True

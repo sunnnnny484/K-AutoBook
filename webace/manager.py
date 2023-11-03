@@ -2,6 +2,7 @@
 """
 web-ace の操作を行うためのクラスモジュール
 """
+from selenium.webdriver.common.by import By
 
 from manager import AbstractManager, scroll_down
 
@@ -30,7 +31,7 @@ class Manager(AbstractManager):
         scroll_down(self.driver, self._sleep_time)
         print('scroll down to the bottom of the page.')
 
-        imgs = self.driver.find_elements_by_css_selector("img.viewerFixedImage")
+        imgs = self.driver.find_elements(By.CSS_SELECTOR, "img.viewerFixedImage")
         self._set_total(len(imgs))
 
         session = self._get_session()

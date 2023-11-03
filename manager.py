@@ -14,6 +14,7 @@ from io import BytesIO
 from os import path, listdir, makedirs
 from PIL import Image
 from requests.adapters import HTTPAdapter
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
@@ -156,12 +157,11 @@ class AbstractManager(ABC):
     def _check_directory(self):
         """
         ディレクトリの存在を確認して，ない場合はそのディレクトリを作成する
-        @param directory 確認するディレクトリのパス
         """
         if not path.isdir(self.directory):
             try:
                 makedirs(self.directory)
-            except OSError as exception:
+            except OSError:
                 print("ディレクトリの作成に失敗しました({0})".format(self.directory))
                 raise
 
@@ -280,7 +280,7 @@ class CoreViewManager(AbstractManager):
         """
         self._wait()
 
-        script = self.driver.find_elements_by_id('episode-json')[0]
+        script = self.driver.find_elements(By.ID, 'episode-json')[0]
         json_ = json.loads(script.get_attribute('data-value'))
         self._image_type = json_['readableProduct']['pageStructure']['choJuGiga']
         pages = [x for x in json_['readableProduct']['pageStructure']['pages'] if x['type'] == 'main']

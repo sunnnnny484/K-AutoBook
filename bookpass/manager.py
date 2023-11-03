@@ -36,7 +36,7 @@ class Manager(AbstractManager):
         """
         self._wait()
 
-        canvas = self.driver.find_element_by_css_selector("div.page > canvas")[0]
+        canvas = self.driver.find_element(By.CSS_SELECTOR, "div.page > canvas")[0]
         self.driver.set_window_size(int(canvas.get_attribute('width')),
                                            int(canvas.get_attribute('height')))
         print(f'size: {canvas.get_attribute("width")}x{canvas.get_attribute("height")}')
@@ -44,7 +44,7 @@ class Manager(AbstractManager):
         self._skip_first_dialog()
         self._sleep()
 
-        touch = self.driver.find_element_by_css_selector("div.Viewer-fit-fill")
+        touch = self.driver.find_element(By.CSS_SELECTOR, "div.Viewer-fit-fill")
         touch.click()  # show slider
         self._sleep()
 
@@ -56,14 +56,14 @@ class Manager(AbstractManager):
         if self.current_page_element is None:
             return '現在のページ情報の取得に失敗しました'
 
-        touch = self.driver.find_element_by_css_selector("body")
+        touch = self.driver.find_element(By.CSS_SELECTOR, "body")
         touch.click()  # hide slider
         self._sleep()
 
         self._set_total(total)
         for count in range(0, total):
 
-            canvas = self.driver.find_element_by_css_selector("div.page > canvas")
+            canvas = self.driver.find_element(By.CSS_SELECTOR, "div.page > canvas")
             self._save_image_of_web_element(count, canvas)
 
             self.pbar.update(1)
@@ -79,7 +79,7 @@ class Manager(AbstractManager):
         最初にフッタの出し入れをする
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
-        elements = self.driver.find_elements_by_css_selector('span.maxIndexLabel')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, 'span.maxIndexLabel')
         if len(elements) == 0:
             # print("no total")
             return None
@@ -95,7 +95,7 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        elements = self.driver.find_elements_by_css_selector('span.indexLabel')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, 'span.indexLabel')
         if len(elements) != 0:
             return elements[0]
         print("no current")
@@ -112,7 +112,7 @@ class Manager(AbstractManager):
         """
         skip help dialog
         """
-        elements = self.driver.find_elements_by_css_selector('button.Btn_cancel')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, 'button.Btn_cancel')
         if len(elements) != 0 and '見ない' in elements[0].get_attribute('innerHTML'):
             print('first dialog found, skip...')
             elements[0].click()

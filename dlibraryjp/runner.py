@@ -5,6 +5,9 @@ d-library.jp module
 
 import re
 import time
+
+from selenium.webdriver.common.by import By
+
 from config import SubConfigWithCookie
 from runner import AbstractRunner
 from dlibraryjp.manager import Manager
@@ -52,11 +55,11 @@ class Runner(AbstractRunner):
         print(self.driver.current_url)
         try:
             print("search read button")
-            button = self.driver.find_element_by_css_selector('div.rental_buttonside > button')
+            button = self.driver.find_element(By.CSS_SELECTOR, 'div.rental_buttonside > button')
             time.sleep(2)
-        except:
+        except Exception:
             print("search login button")
-            button = self.driver.find_element_by_css_selector('#loginForm > button')
+            button = self.driver.find_element(By.CSS_SELECTOR, '#loginForm > button')
             button.click()
             time.sleep(2)
 
@@ -66,7 +69,7 @@ class Runner(AbstractRunner):
 
         script = button.get_attribute('onclick')
         if script is None:
-            button = self.driver.find_element_by_css_selector('#loginInput button')
+            button = self.driver.find_element(By.CSS_SELECTOR, '#loginInput button')
             button.click()
             time.sleep(2)
 

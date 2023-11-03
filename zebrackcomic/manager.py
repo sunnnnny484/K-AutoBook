@@ -6,6 +6,7 @@ zebrack-comic の操作を行うためのクラスモジュール
 import re
 import time
 from retry import retry
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from manager import AbstractManager, get_file_content_chrome
 
@@ -56,7 +57,7 @@ class Manager(AbstractManager):
 
     @retry(tries=3, delay=1)
     def _get_img(self):
-        return self.driver.find_element_by_xpath("//img[starts-with(@src, 'blob:')]")
+        return self.driver.find_element(By.XPATH, "//img[starts-with(@src, 'blob:')]")
 
     def _get_total_page(self):
         """
@@ -66,11 +67,11 @@ class Manager(AbstractManager):
         """
         for _ in range(Manager.MAX_LOADING_TIME):
             try:
-                element = self.driver.find_element_by_xpath("//*[@id='root']/section/div/div/div[3]/p")
+                element = self.driver.find_element(By.XPATH, "//*[@id='root']/section/div/div/div[3]/p")
                 # print(element.get_attribute('innerHTML'))
                 if re.match('^\\d+ / \\d+$', element.get_attribute('innerHTML')):
                     return int(element.get_attribute('innerHTML').split('/')[1].strip())
-            except:
+            except Exception:
                 time.sleep(1)
         return None
 
@@ -80,9 +81,9 @@ class Manager(AbstractManager):
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
         try:
-            element = self.driver.find_element_by_xpath("//*[@id='root']/section/div/div/div[3]/p")
+            element = self.driver.find_element(By.XPATH, "//*[@id='root']/section/div/div/div[3]/p")
             return element
-        except:
+        except Exception:
             return None
 
     def _get_current_page(self):

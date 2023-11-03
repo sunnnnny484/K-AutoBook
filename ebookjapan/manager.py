@@ -9,6 +9,7 @@ import re
 import time
 from PIL import Image
 from retry import retry
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from manager import AbstractManager
 
@@ -42,7 +43,7 @@ class Manager(AbstractManager):
         self.retry_count = 0
 
     def _fix_window_size(self):
-        canvas = self.driver.find_elements_by_css_selector('canvas')[0]
+        canvas = self.driver.find_elements(By.CSS_SELECTOR, 'canvas')[0]
 
         w = 480
         h = 640
@@ -104,7 +105,7 @@ class Manager(AbstractManager):
 
         self._save_image(0, self._capture())
 
-        self.driver.find_element_by_css_selector('body').click()
+        self.driver.find_element(By.CSS_SELECTOR, 'body').click()
         self._press_key(self.next_key)
         self.pbar.update(1)
 
@@ -131,7 +132,7 @@ class Manager(AbstractManager):
         最初にフッタの出し入れをする
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
-        elements = self.driver.find_elements_by_css_selector('.footer__page-output > .total-pages')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, '.footer__page-output > .total-pages')
         if len(elements) == 0:
             return None
         for _ in range(Manager.MAX_LOADING_TIME):
@@ -145,7 +146,7 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        elements = self.driver.find_elements_by_css_selector('.footer__page-output > output')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, '.footer__page-output > output')
         if len(elements) != 0:
             return elements[0]
         print("*** NO CURRENT ELEMENT ***")
@@ -158,7 +159,7 @@ class Manager(AbstractManager):
         """
         try:
             return int(self.current_page_element.get_attribute('innerHTML')[:-2])
-        except:
+        except Exception:
             print("*** NO CURRENT PAGE ***")
             return 0
 

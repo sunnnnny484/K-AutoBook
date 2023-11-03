@@ -4,6 +4,8 @@ sukima の操作を行うためのクラスモジュール
 
 import re
 import time
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from manager import AbstractManager
 
@@ -46,7 +48,7 @@ class Manager(AbstractManager):
         self._set_total(total)
         for count in range(0, total):
 
-            canvas = self.driver.find_elements_by_css_selector(f"div#div_{count + 1} > canvas")[0]
+            canvas = self.driver.find_elements(By.CSS_SELECTOR, f"div#div_{count + 1} > canvas")[0]
             self._save_image_of_web_element(count, canvas)
 
             self.pbar.update(1)
@@ -62,7 +64,7 @@ class Manager(AbstractManager):
         最初にフッタの出し入れをする
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
-        elements = self.driver.find_elements_by_css_selector('.noUi-tooltip')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, '.noUi-tooltip')
         if len(elements) == 0:
             # print("no total")
             return None
@@ -78,7 +80,7 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        elements = self.driver.find_elements_by_css_selector('.noUi-tooltip')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, '.noUi-tooltip')
         if len(elements) != 0:
             return elements[0]
         print("no current")
@@ -97,7 +99,7 @@ class Manager(AbstractManager):
         次のページに進む
         """
         current_page = self._get_current_page()
-        body = self.driver.find_elements_by_css_selector("body")[0]
+        body = self.driver.find_elements(By.CSS_SELECTOR, "body")[0]
         body.send_keys(Keys.ARROW_LEFT)
         if self._get_current_page() < self.pbar.total - 1:
             while self._get_current_page() != current_page + 1:

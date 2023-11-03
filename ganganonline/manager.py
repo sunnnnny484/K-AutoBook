@@ -7,6 +7,7 @@ from retry import retry
 from selenium.webdriver.common.keys import Keys
 from tqdm import tqdm
 from manager import AbstractManager, get_file_content_chrome
+from selenium.webdriver.common.by import By
 
 
 class Manager(AbstractManager):
@@ -42,9 +43,9 @@ class Manager(AbstractManager):
 
             img = self._get_img()
             try:
-                self.driver.find_element_by_xpath("//button[text() = '閉じる']")
+                self.driver.find_element(By.XPATH, "//button[text() = '閉じる']")
                 break
-            except:
+            except Exception:
                 if count != 0:
                     self._save_image_of_bytes(count, get_file_content_chrome(self.driver, img.get_attribute('src')))
                     self.pbar.update(1)
@@ -58,7 +59,7 @@ class Manager(AbstractManager):
 
     @retry(tries=3, delay=1)
     def _get_img(self):
-        return self.driver.find_element_by_xpath("//img[starts-with(@src, 'blob:')]")
+        return self.driver.find_element(By.XPATH, "//img[starts-with(@src, 'blob:')]")
 
     def _next(self):
         """

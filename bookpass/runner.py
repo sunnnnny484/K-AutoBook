@@ -2,6 +2,7 @@
 """
 bookpass の実行クラスモジュール
 """
+from selenium.webdriver.common.by import By
 
 from config import BasicSubConfig
 from runner import AbstractRunner
@@ -43,7 +44,7 @@ class Runner(AbstractRunner):
         """
         実際の本のページに移動する
         """
-        elements = self.driver.find_elements_by_css_selector('a.button.view_button')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, 'a.button.view_button')
         if len(elements) != 0 and '読む' in elements[0].get_attribute('innerHTML'):
             elements[0].click()
             return True

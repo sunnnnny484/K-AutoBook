@@ -7,6 +7,7 @@ import sys
 from os import path
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
+from selenium.webdriver.chrome.service import Service
 from config import Config
 from runner import AbstractRunner
 
@@ -47,7 +48,8 @@ def _initialize_driver(config, profile="chrome"):
         chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_experimental_option('useAutomationExtension', False)
 
-        driver = webdriver.Chrome(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
+        service = Service(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
+        driver = webdriver.Chrome(service=service)
     elif profile == 'chrome_headless':
         chrome_options = ChromeOptions()
         if config.chrome_binary:
@@ -70,7 +72,8 @@ def _initialize_driver(config, profile="chrome"):
         chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_experimental_option('useAutomationExtension', False)
 
-        driver = webdriver.Chrome(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
+        service = Service(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
+        driver = webdriver.Chrome(service=service)
     elif profile == 'chrome_existing':
         chrome_options = ChromeOptions()
         if config.chrome_binary:
@@ -89,9 +92,11 @@ def _initialize_driver(config, profile="chrome"):
         chrome_options.add_argument('disable-web-security')
         chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9014")
 
-        driver = webdriver.Chrome(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
+        service = Service(options=chrome_options, service_args=["--verbose", f"--log-path={log_name}"])
+        driver = webdriver.Chrome(service=service)
     else:
-        driver = webdriver.Chrome(service_args=["--verbose", f"--log-path={log_name}"])
+        service = Service(service_args=["--verbose", f"--log-path={log_name}"])
+        driver = webdriver.Chrome(service=service)
     return driver
 
 

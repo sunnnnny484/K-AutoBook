@@ -4,6 +4,9 @@ dmm books の実行クラスモジュール
 """
 
 import time
+
+from selenium.webdriver.common.by import By
+
 from config import SubConfigWithCookie
 from runner import AbstractRunner
 from dmmbooks.manager import Manager
@@ -48,7 +51,7 @@ class Runner(AbstractRunner):
         """
         実際の本のページに移動する
         """
-        elements = self.driver.find_elements_by_css_selector('div.m-boxListBookProductBlock__btn > div')
+        elements = self.driver.find_elements(By.CSS_SELECTOR, 'div.m-boxListBookProductBlock__btn > div')
         if len(elements) != 0 and '読む' in elements[0].text:
             elements[0].click()
             return True

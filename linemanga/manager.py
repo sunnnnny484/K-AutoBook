@@ -6,6 +6,8 @@ line-manga の操作を行うためのクラスモジュール
 import base64
 import re
 import time
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from manager import AbstractManager
 
@@ -47,7 +49,7 @@ class Manager(AbstractManager):
             return '現在のページ情報の取得に失敗しました'
 
         # get original size
-        canvas = self.driver.find_element_by_css_selector("canvas.dummy")
+        canvas = self.driver.find_element(By.CSS_SELECTOR, "canvas.dummy")
         self.driver.set_window_size(int(canvas.get_attribute('width')),
                                     int(canvas.get_attribute('height')))
         print(f'size: {canvas.get_attribute("width")}x{canvas.get_attribute("height")}')
@@ -73,7 +75,7 @@ class Manager(AbstractManager):
         @return 取得成功時に全ページ数を、失敗時に None を返す
         """
         for _ in range(Manager.MAX_LOADING_TIME):
-            elements = self.driver.find_elements_by_css_selector("span.fnViewerSliderNumTotal")
+            elements = self.driver.find_elements(By.CSS_SELECTOR, "span.fnViewerSliderNumTotal")
             if len(elements) != 0:
                 # print(f'"{elements[0].get_attribute('innerHTML')}"')
                 if re.match(r'^\d+$', elements[0].get_attribute('innerHTML').strip()):
@@ -86,7 +88,7 @@ class Manager(AbstractManager):
         現在表示されているページのページ数が表示されているエレメントを取得する
         @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
         """
-        elements = self.driver.find_elements_by_css_selector("b.fnViewerSliderNumCurrent")
+        elements = self.driver.find_elements(By.CSS_SELECTOR, "b.fnViewerSliderNumCurrent")
         if len(elements) != 0:
             return elements[0]
         return None

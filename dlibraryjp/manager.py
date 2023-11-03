@@ -3,10 +3,11 @@
 d-library.jp
 """
 
-import time
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from manager import AbstractManager
 from tqdm import tqdm
+
+from manager import AbstractManager
 
 
 class Manager(AbstractManager):
@@ -35,7 +36,7 @@ class Manager(AbstractManager):
     def start(self, url=None):
         """
         Starts scraping.
-        @return an error massage or True when succeed.
+        @return an error message or True when succeeded.
         """
         self.driver.set_window_size(960, 1280)
 
@@ -43,14 +44,14 @@ class Manager(AbstractManager):
 
         self._sleep(3)
 
-        iframe = self.driver.find_element_by_id('binb')
+        iframe = self.driver.find_element(By.ID, 'binb')
         self.driver.switch_to.frame(iframe)
 
         count = 0
         flag = True
         while flag:
 
-            img = self.driver.find_element_by_css_selector("#main_canvas2")
+            img = self.driver.find_element(By.CSS_SELECTOR, "#main_canvas2")
             self._save_image_of_web_element(count, img)
 
             self.pbar.update(1)
@@ -68,7 +69,7 @@ class Manager(AbstractManager):
         self._press_key(self.next_key)
 
         try:
-            self.driver.find_element_by_id('lastPageFrame')
+            self.driver.find_element(By.ID, 'lastPageFrame')
             return False
-        except:
+        except Exception:
             return True
