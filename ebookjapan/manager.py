@@ -77,6 +77,26 @@ class Manager(AbstractManager):
         style = canvas.get_attribute('style')
         print(f'style: {style}')
 
+        # self.set_font_size()
+
+    def set_font_size(self):
+        #
+        touch = self.driver.find_element(By.CSS_SELECTOR, "div.viewer")
+        touch.click()  # show slider
+        self._sleep(2)
+
+        touch = self.driver.find_element(By.CSS_SELECTOR, "#__layout > div > div.main > header > div.header__menu > ul > li:nth-child(3) > a > i")
+        touch.click()  # show dialog
+        self._sleep()
+
+        touch = self.driver.find_element(By.CSS_SELECTOR, "a.btn.btn--ss")
+        touch.click()  # show dialog
+        self._sleep()
+
+        touch = self.driver.find_element(By.CSS_SELECTOR, "div.modalbox__close > div > i")
+        touch.click()  # show dialog
+        self._sleep()
+
     def start(self, url=None):
         """
         Starts automatic screenshots of pages.

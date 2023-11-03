@@ -337,7 +337,7 @@ class ChromeCookie:
 
     def __init__(self, db):
         # TODO does this work on windows???
-        password = keyring.get_password('Chrome Safe Storage', 'Chrome').encode()
+        password = keyring.get_password('Chrome Safe Storage', 'Chrome')
         salt = b'saltysalt'
         length = 16
         iterations = 1003
