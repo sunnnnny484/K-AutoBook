@@ -143,8 +143,7 @@
     "dmmbooks": {
         "domain": "book\\.dmm\\.com",
         "patterns": [
-            "library\\/\\?.*&item_id=([0-9a-z]+)",
-            "library\\/series\\/\\?.*&item_id=([0-9a-z]+)"
+            "product/\\d+/(\\w+)"
         ],
         "host_key": ".dmm.com",
         "top_url": "https://book.dmm.com"
