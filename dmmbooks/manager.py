@@ -45,6 +45,12 @@ class Manager(AbstractManager):
 
         self._sleep(2)
 
+        for i, w in enumerate(self.driver.window_handles):
+            self.driver.switch_to.window(w)
+            print(str(i) + " " + self.driver.current_url)
+            if self.driver.current_url.startswith("https://book.dmm.com/streaming"):
+                break
+
         total = self._get_total_page()
         if total is None:
             return 'Failed to get total page number'

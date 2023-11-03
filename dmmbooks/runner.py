@@ -51,7 +51,9 @@ class Runner(AbstractRunner):
         """
         Goes to actual book page.
         """
-        elements = self.driver.find_elements(By.CSS_SELECTOR, 'div.m-boxListBookProductBlock__btn > div')
+        # root > div > div.css-1k340kz > div.css-1ylq40h > main > div.css-17b4nbm > div.css-c2lnre > div.css-g6ub75 > a
+        elements = self.driver.find_elements(By.CSS_SELECTOR, ' main a[data-e2e="streaming"')
+        # print(len(elements))
         if len(elements) != 0 and '読む' in elements[0].text:
             elements[0].click()
             return True
