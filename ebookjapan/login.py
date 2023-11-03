@@ -42,7 +42,7 @@ class YahooLogin(object):
         """
         self.driver: WebDriver = driver
         """
-        splinter のブラウザインスタンス
+        selenium instance
         """
         self.yahoo_id = yahoo_id
         """

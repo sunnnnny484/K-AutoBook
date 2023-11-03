@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-web-ace の実行クラスモジュール
+A module for web-ace runner.
 """
 
 from runner import DirectPageRunner
@@ -9,7 +9,7 @@ from webace.manager import Manager
 
 class Runner(DirectPageRunner):
     """
-    web-ace の実行クラス
+    A class for web-ace runner.
     https://web-ace.jp/youngaceup/contents/1000053/episode/1092/
     """
 

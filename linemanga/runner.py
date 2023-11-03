@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-line-manga の実行クラスモジュール
+A module for line-manga runner.
 """
 
 import time
@@ -11,7 +11,7 @@ from linemanga.manager import Manager
 
 class Runner(AbstractRunner):
     """
-    line-manga の実行クラス
+    A class for line-manga runner.
     https://manga.line.me/book/viewer?id=92dc0b4e-c5d4-4518-9fba-d78fb1e6b0f0
     """
 
@@ -20,7 +20,7 @@ class Runner(AbstractRunner):
 
     def run(self):
         """
-        line-manga の実行
+        Proceeds line-manga runner.
         """
         if self._set_cookie():
             self.driver.get('https://manga.line.me/store/')

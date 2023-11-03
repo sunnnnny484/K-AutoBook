@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-comic-action の実行クラスモジュール
+A module for comic-action runner.
 """
 
 from runner import DirectPageRunner
@@ -8,6 +8,6 @@ from runner import DirectPageRunner
 
 class Runner(DirectPageRunner):
     """
-    comic-action の実行クラス
+    A class for comic-action runner.
     https://comic-action.com/episode/13933686331636733009
     """

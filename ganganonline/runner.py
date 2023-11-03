@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-gangan-online の実行クラスモジュール
+A module for gangan-online runner.
 """
 
 from runner import DirectPageRunner
@@ -9,7 +9,7 @@ from ganganonline.manager import Manager
 
 class Runner(DirectPageRunner):
     """
-    gangan-online の実行クラス
+    A class for gangan-online runner.
     https://viewer.ganganonline.com/manga/?chapterId=15502
     """
 

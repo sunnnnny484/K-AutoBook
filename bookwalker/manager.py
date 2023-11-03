@@ -21,20 +21,20 @@ class Manager(AbstractManager):
 
     def __init__(self, driver, config=None, directory='./', prefix=''):
         """
-        book-walker の操作を行うためのコンストラクタ
-        @param driver splinter のブラウザインスタンス
+        Constructor for book-walker capturing.
+        @param driver selenium instance
         """
         super().__init__(driver, config, directory, prefix)
 
         self.next_key = Keys.ARROW_LEFT
         """
-        次のページに進むためのキー
+        Key to proceed to next page
         """
 
     def start(self, url=None):
         """
-        ページの自動スクリーンショットを開始する
-        @return エラーが合った場合にエラーメッセージを、成功時に True を返す
+        Starts automatic screenshots of pages.
+        @return an error message if the error occurs, or True if it succeeds
         """
         self._wait()
 
@@ -42,7 +42,7 @@ class Manager(AbstractManager):
 
         total = self._get_total_page()
         if total is None:
-            return '全ページ数の取得に失敗しました'
+            return 'Failed to get total page number'
 
         self._sleep(2)
 
@@ -68,9 +68,9 @@ class Manager(AbstractManager):
 
     def _get_total_page(self):
         """
-        全ページ数を取得する
-        最初にフッタの出し入れをする
-        @return 取得成功時に全ページ数を、失敗時に None を返す
+        Gets total page count.
+        First, move the footer in and out.
+        @return the total number of pages on success, None on failure
         """
         for _ in range(Manager.MAX_LOADING_TIME):
             elements = self.driver.find_elements(By.ID, 'pageSliderCounter')
@@ -83,7 +83,7 @@ class Manager(AbstractManager):
 
     def _next(self):
         """
-        次のページに進む
+        Proceeds to next page.
         """
         self._press_key(self.next_key)
         self._wait_loading()

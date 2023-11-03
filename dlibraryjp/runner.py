@@ -36,7 +36,7 @@ class Runner(AbstractRunner):
         if self._move_main_page():
             print('Open main page')
         else:
-            print('ページの取得に失敗しました')
+            print('Failed to retrieve page')
             return
 
         destination = self.get_output_dir()
@@ -49,7 +49,7 @@ class Runner(AbstractRunner):
 
     def _move_main_page(self):
         """
-        実際の本のページに移動する
+        Goes to actual book page.
         TODO works on headless mode only why???
         """
         print(self.driver.current_url)

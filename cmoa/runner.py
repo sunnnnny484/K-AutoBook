@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-comic-cmoa の実行クラスモジュール
+A module for comic-cmoa runner.
 """
 
 from config import SubConfigWithCookie
@@ -10,7 +10,7 @@ from booklive.manager import Manager
 
 class Runner(DirectPageRunner):
     """
-    comic-cmoa の実行クラス
+    A class for comic-cmoa runner.
     https://www.cmoa.jp/bib/speedreader/speed.html?cid=0000101745_jp_0002&u0=1&u1=0&rurl=https%3A%2F%2Fwww.cmoa.jp%2Ftitle%2F101745%2Fvol%2F2%2F
     """
 

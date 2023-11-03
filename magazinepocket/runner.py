@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-magazinepocket の実行クラスモジュール
+A module for magazinepocket runner.
 """
 
 from runner import DirectPageRunner
@@ -8,6 +8,6 @@ from runner import DirectPageRunner
 
 class Runner(DirectPageRunner):
     """
-    magazinepocket の実行クラス
+    A class for magazinepocket runner.
     https://pocket.shonenmagazine.com/episode/13933686331610373443
     """

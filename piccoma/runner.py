@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-piccoma の実行クラスモジュール
+A module for piccoma runner.
 """
 
 from piccoma.manager import Manager
@@ -9,7 +9,7 @@ from runner import DirectPageRunner
 
 class Runner(DirectPageRunner):
     """
-    piccoma の実行クラス
+    A class for piccoma runner.
     https://piccoma.com/web/viewer/4267/1471900
     """
 

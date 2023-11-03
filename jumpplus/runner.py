@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-jumpplus の実行クラスモジュール
+A module for jumpplus runner.
 """
 
 from runner import DirectPageRunner
@@ -8,6 +8,6 @@ from runner import DirectPageRunner
 
 class Runner(DirectPageRunner):
     """
-    jumpplus の実行クラス
+    A class for jumpplus runner.
     https://shonenjumpplus.com/episode/13932016480031086197
     """

@@ -117,7 +117,7 @@ class Config:
 
 class ImageFormat(IntEnum):
     """
-    imgae writing format
+    image writing format
     """
 
     JPEG = 1

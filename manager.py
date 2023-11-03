@@ -150,7 +150,7 @@ class AbstractManager(ABC):
     @abstractmethod
     def start(self, url=None):
         """
-        @return エラーが合った場合にエラーメッセージを、成功時に True を返す
+        @return an error message if the error occurs, or True if it succeeds
         """
         pass
 
@@ -267,8 +267,8 @@ class CoreViewManager(AbstractManager):
 
     def __init__(self, driver, config=None, directory='./', prefix=''):
         """
-        coreview の操作を行うためのコンストラクタ
-        @param driver splinter のブラウザインスタンス
+        Constructor for coreview capturing.
+        @param driver selenium instance
         """
         super().__init__(driver, config, directory, prefix)
 
@@ -276,7 +276,7 @@ class CoreViewManager(AbstractManager):
 
     def start(self, url=None):
         """
-        @return エラーが合った場合にエラーメッセージを、成功時に True を返す
+        @return an error message if the error occurs, or True if it succeeds
         """
         self._wait()
 

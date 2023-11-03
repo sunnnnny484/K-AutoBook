@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-ebookjapan の実行クラスモジュール
+A module for ebookjapan runner.
 """
 
 import time
@@ -15,7 +15,7 @@ from ebookjapan.config import SubConfig
 
 class Runner(AbstractRunner):
     """
-    ebookjapan の実行クラス
+    A class for ebookjapan runner.
 
     https://ebookjapan.yahoo.co.jp/books/145222/A000100547
 
@@ -33,7 +33,7 @@ class Runner(AbstractRunner):
 
     def run(self):
         """
-        ebookjapan の実行
+        Proceeds ebookjapan runner.
         """
         if self._set_cookie():
             time.sleep(1)
@@ -51,7 +51,7 @@ class Runner(AbstractRunner):
         elif self._move_demo_page():
             print('Open demo page')
         else:
-            print('ページの取得に失敗しました')
+            print('Failed to retrieve page')
             return
 
         destination = self.get_output_dir()
@@ -94,7 +94,7 @@ class Runner(AbstractRunner):
 
     def _move_main_page(self):
         """
-        実際の本のページに移動する
+        Goes to actual book page.
         """
         elements = self.driver.find_elements(By.CSS_SELECTOR, '.btn.btn--primary.btn--read')
         if len(elements) != 0 and '読む' in elements[0].text:

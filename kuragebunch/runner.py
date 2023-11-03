@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-kuragebunch の実行クラスモジュール
+A module for kuragebunch runner.
 """
 
 from runner import DirectPageRunner
@@ -8,6 +8,6 @@ from runner import DirectPageRunner
 
 class Runner(DirectPageRunner):
     """
-    kuragebunch の実行クラス
+    A class for kuragebunch runner.
     https://kuragebunch.com/episode/10834108156630826048
     """

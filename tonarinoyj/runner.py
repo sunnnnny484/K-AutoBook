@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-tonarinoyj の実行クラスモジュール
+A module for tonarinoyj runner.
 """
 
 from runner import DirectPageRunner
@@ -8,6 +8,6 @@ from runner import DirectPageRunner
 
 class Runner(DirectPageRunner):
     """
-    tonarinoyj の実行クラス
+    A class for tonarinoyj runner.
     https://tonarinoyj.jp/episode/13933686331663810200
     """

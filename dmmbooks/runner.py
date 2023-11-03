@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-dmm books の実行クラスモジュール
+A module for dmm books runner.
 """
 
 import time
@@ -14,7 +14,7 @@ from dmmbooks.manager import Manager
 
 class Runner(AbstractRunner):
     """
-    dmm books の実行クラス
+    A class for dmm books runner.
     https://book.dmm.com/library/?item_id=b900qkds03987
     """
 
@@ -23,7 +23,7 @@ class Runner(AbstractRunner):
 
     def run(self):
         """
-        line-manga の実行
+        Proceeds line-manga runner.
         """
         if self._set_cookie():
             self.driver.get('https://book.dmm.com/')
@@ -34,7 +34,7 @@ class Runner(AbstractRunner):
         if self._move_main_page():
             print('Open main page')
         else:
-            print('ページの取得に失敗しました')
+            print('Failed to retrieve page')
             return
 
         destination = self.get_output_dir()
@@ -49,7 +49,7 @@ class Runner(AbstractRunner):
 
     def _move_main_page(self):
         """
-        実際の本のページに移動する
+        Goes to actual book page.
         """
         elements = self.driver.find_elements(By.CSS_SELECTOR, 'div.m-boxListBookProductBlock__btn > div')
         if len(elements) != 0 and '読む' in elements[0].text:

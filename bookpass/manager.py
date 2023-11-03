@@ -15,24 +15,24 @@ class Manager(AbstractManager):
 
     def __init__(self, driver, config=None, directory='./', prefix=''):
         """
-        bookpass の操作を行うためのコンストラクタ
-        @param driver splinter のブラウザインスタンス
+        Constructor for bookpass capturing.
+        @param driver selenium instance
         """
         super().__init__(driver, config, directory, prefix)
 
         self.next_key = Keys.ARROW_LEFT
         """
-        次のページに進むためのキー
+        Key to proceed to next page
         """
         self.current_page_element = None
         """
-        現在表示されているページのページ番号が表示されるエレメント
+        Element that displays the page number of the currently displayed page
         """
 
     def start(self, url=None):
         """
-        ページの自動スクリーンショットを開始する
-        @return エラーが合った場合にエラーメッセージを、成功時に True を返す
+        Starts automatic screenshots of pages.
+        @return an error message if the error occurs, or True if it succeeds
         """
         self._wait()
 
@@ -50,11 +50,11 @@ class Manager(AbstractManager):
 
         total = self._get_total_page()
         if not total:
-            return '全ページ数の取得に失敗しました'
+            return 'Failed to get total page number'
 
         self.current_page_element = self._get_current_page_element()
         if self.current_page_element is None:
-            return '現在のページ情報の取得に失敗しました'
+            return 'Failed to get current page information'
 
         touch = self.driver.find_element(By.CSS_SELECTOR, "body")
         touch.click()  # hide slider
@@ -75,9 +75,9 @@ class Manager(AbstractManager):
 
     def _get_total_page(self):
         """
-        全ページ数を取得する
-        最初にフッタの出し入れをする
-        @return 取得成功時に全ページ数を、失敗時に None を返す
+        Gets total page count.
+        First, move the footer in and out.
+        @return the total number of pages on success, None on failure
         """
         elements = self.driver.find_elements(By.CSS_SELECTOR, 'span.maxIndexLabel')
         if len(elements) == 0:
@@ -92,8 +92,8 @@ class Manager(AbstractManager):
 
     def _get_current_page_element(self):
         """
-        現在表示されているページのページ数が表示されているエレメントを取得する
-        @return ページ数が表示されているエレメントがある場合はそのエレメントを、ない場合は None を返す
+        Gets the element that displays the page number of the currently displayed page.
+        @return If there is an element displaying the page number, that element, otherwise None
         """
         elements = self.driver.find_elements(By.CSS_SELECTOR, 'span.indexLabel')
         if len(elements) != 0:
@@ -103,8 +103,8 @@ class Manager(AbstractManager):
 
     def _get_current_page(self):
         """
-        現在のページを取得する
-        @return 現在表示されているページ
+        Gets current page.
+        @return current page
         """
         return int(self.current_page_element.get_attribute('innerHTML'))
 
@@ -121,7 +121,7 @@ class Manager(AbstractManager):
 
     def _next(self):
         """
-        次のページに進む
+        Proceeds to next page.
         """
         current_page = self._get_current_page()
         self._press_key(self.next_key)

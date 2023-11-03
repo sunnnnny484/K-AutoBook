@@ -17,8 +17,8 @@ class Manager(AbstractManager):
 
     def __init__(self, driver, config=None, directory='./', prefix=''):
         """
-        gangan-online の操作を行うためのコンストラクタ
-        @param driver splinter のブラウザインスタンス
+        Constructor for gangan-online capturing.
+        @param driver selenium instance
         """
         super().__init__(driver, config, directory, prefix)
 
@@ -26,13 +26,13 @@ class Manager(AbstractManager):
 
         self.next_key = Keys.ARROW_LEFT
         """
-        次のページに進むためのキー
+        Key to proceed to next page
         """
 
     def start(self, url=None):
         """
-        ページの自動スクリーンショットを開始する
-        @return エラーが合った場合にエラーメッセージを、成功時に True を返す
+        Starts automatic screenshots of pages.
+        @return an error message if the error occurs, or True if it succeeds
         """
         self._wait()
 
@@ -63,6 +63,6 @@ class Manager(AbstractManager):
 
     def _next(self):
         """
-        次のページに進む
+        Proceeds to next page.
         """
         self._press_key(self.next_key)

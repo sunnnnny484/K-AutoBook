@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-bookpass の実行クラスモジュール
+A module for bookpass runner.
 """
 from selenium.webdriver.common.by import By
 
@@ -11,7 +11,7 @@ from bookpass.manager import Manager
 
 class Runner(AbstractRunner):
     """
-    bookpass の実行クラス
+    A class for bookpass runner.
     https://bookpass.auone.jp/pack/detail/?iid=BT000069318400100101&cs=top_freecomics_reco_670&pos=2&tab=1&ajb=3
     """
 
@@ -20,7 +20,7 @@ class Runner(AbstractRunner):
 
     def run(self):
         """
-        bookpass の実行
+        Proceeds bookpass runner.
         """
         print('Loading page of inputted url (%s)' % self.url)
         self.driver.get(self.url)
@@ -28,7 +28,7 @@ class Runner(AbstractRunner):
         if self._move_main_page():
             print('Open main page')
         else:
-            print('ページの取得に失敗しました')
+            print('Failed to retrieve page')
             return
 
         destination = self.get_output_dir()
@@ -42,7 +42,7 @@ class Runner(AbstractRunner):
 
     def _move_main_page(self):
         """
-        実際の本のページに移動する
+        Goes to actual book page.
         """
         elements = self.driver.find_elements(By.CSS_SELECTOR, 'a.button.view_button')
         if len(elements) != 0 and '読む' in elements[0].get_attribute('innerHTML'):

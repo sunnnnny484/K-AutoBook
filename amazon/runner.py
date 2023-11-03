@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-amazon の実行クラスモジュール
+A module for amazon runner.
 """
 
 from runner import DirectPageRunner
@@ -9,7 +9,7 @@ from amazon.manager import Manager
 
 class Runner(DirectPageRunner):
     """
-    amazon の実行クラス
+    A class for amazon runner.
     https://read.amazon.co.jp/manga/B00JR0Q0YO?ref_=dbs_ebk_wr_lft
     """
 

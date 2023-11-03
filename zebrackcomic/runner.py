@@ -1,6 +1,6 @@
 # --- coding: utf-8 ---
 """
-zebrackcomic の実行クラスモジュール
+A module for zebrackcomic runner.
 """
 
 import time
@@ -14,7 +14,7 @@ from zebrackcomic.manager import Manager
 
 class Runner(AbstractRunner):
     """
-    zebrack-comic の実行クラス
+    A class for zebrack-comic runner.
     https://zebrack-comic.com/title/37/volume/1498/viewer
     """
 
@@ -23,7 +23,7 @@ class Runner(AbstractRunner):
 
     def run(self):
         """
-        zebrack-comic の実行
+        Proceeds zebrack-comic runner.
         """
         print('Loading page of inputted url (%s)' % self.url)
         self.driver.get(self.url)
@@ -34,7 +34,7 @@ class Runner(AbstractRunner):
         if self._move_main_page():
             print('Open main page')
         else:
-            print('ページの取得に失敗しました')
+            print('Failed to retrieve page')
             return
 
         manager = Manager(self.driver, self.sub_config, destination)
@@ -44,7 +44,7 @@ class Runner(AbstractRunner):
 
     def _move_main_page(self):
         """
-        実際の本のページに移動する
+        Goes to actual book page.
         """
         time.sleep(3)
 
