@@ -123,7 +123,11 @@ class AbstractRunner(ABC):
                 for c in candidates:
                     modname = root[2:].replace('/', '.') + '.' + os.path.splitext(c)[0]
                     try:
-                        module = importlib.import_module(modname)
+                        if not modname.startswith("."):
+                            # except venv folder
+                            module = importlib.import_module(modname)
+                        else:
+                            continue
                     except (ImportError, NotImplementedError):
                         continue
                     for cls in dir(module):
