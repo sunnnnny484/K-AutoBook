@@ -49,7 +49,10 @@ class Manager(AbstractManager):
             return 'Failed to get current page information'
 
         # get original size
-        canvas = self.driver.find_element(By.CSS_SELECTOR, "canvas.dummy")
+        try:
+            canvas = self.driver.find_element(By.CSS_SELECTOR, "canvas.dummy")
+        except:
+            canvas = self.driver.find_elements(By.CSS_SELECTOR, "canvas")[0]
         self.driver.set_window_size(int(canvas.get_attribute('width')),
                                     int(canvas.get_attribute('height')))
         print(f'size: {canvas.get_attribute("width")}x{canvas.get_attribute("height")}')
@@ -75,11 +78,20 @@ class Manager(AbstractManager):
         @return the total number of pages on success, None on failure
         """
         for _ in range(Manager.MAX_LOADING_TIME):
+            try:
+                total = self.driver.execute_script("if (typeof imgs !== 'undefined') return Object.keys(imgs).length; return -1;")
+                if total > 0:
+                    return total
+            except:
+                pass
             elements = self.driver.find_elements(By.CSS_SELECTOR, "span.fnViewerSliderNumTotal")
             if len(elements) != 0:
-                # print(f'"{elements[0].get_attribute('innerHTML')}"')
+                # print(f'"{elements[0].get_attribute(\'innerHTML\')}"')
                 if re.match(r'^\d+$', elements[0].get_attribute('innerHTML').strip()):
                     return int(elements[0].get_attribute('innerHTML').strip())
+            elements = self.driver.find_elements(By.CSS_SELECTOR, "canvas")
+            if len(elements) != 0:
+                return len(elements)
             time.sleep(1)
         return None
 
@@ -91,13 +103,17 @@ class Manager(AbstractManager):
         elements = self.driver.find_elements(By.CSS_SELECTOR, "b.fnViewerSliderNumCurrent")
         if len(elements) != 0:
             return elements[0]
-        return None
+        return "mock_element"
 
     def _get_current_page(self):
         """
         Gets current page.
         @return current page
         """
+        if self.current_page_element == "mock_element":
+            if not hasattr(self, '_current_page_counter'):
+                self._current_page_counter = 0
+            return self._current_page_counter
         # print(int(self.current_page_element.get_attribute('innerHTML')))
         return int(self.current_page_element.get_attribute('innerHTML'))
 
@@ -107,6 +123,11 @@ class Manager(AbstractManager):
         """
         current_page = self._get_current_page()
         self._press_key(self.next_key)
+        if hasattr(self, '_current_page_counter'):
+            self._current_page_counter += 1
+            time.sleep(0.5)
+            return
         if self._get_current_page() < self.pbar.total - 1:
             while self._get_current_page() != current_page + 1:
                 time.sleep(0.1)
+

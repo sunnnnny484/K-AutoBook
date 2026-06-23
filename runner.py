@@ -147,7 +147,8 @@ class AbstractRunner(ABC):
             return self.sub_config.cookie
 
         if self.config.chrome_cookie_db and self.sub_config.host_key:
-            cookie = ChromeCookie(self.config.chrome_cookie_db).get_cookie(self.sub_config.host_key)
+            # cookie = ChromeCookie(self.config.chrome_cookie_db).get_cookie(self.sub_config.host_key)
+            cookie = None
             # self.config.save_sub_cookie(self.type_, cookie)
             # print(f'USE CHROME COOKIE: {cookie}')
             return cookie
